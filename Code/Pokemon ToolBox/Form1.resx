@@ -2508,13 +2508,13 @@
     <value>8, 354</value>
   </data>
   <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 13</value>
+    <value>324, 13</value>
   </data>
   <data name="label41.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
   </data>
   <data name="label41.Text" xml:space="preserve">
-    <value>Not working at the moment: Abilities, special Attacks (Damage = --), some Items (etc.) and some other stuff</value>
+    <value>Not working at the moment: some stuff maybe, I don't fucking know</value>
   </data>
   <data name="label41.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

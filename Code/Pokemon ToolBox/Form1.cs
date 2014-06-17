@@ -2567,6 +2567,9 @@ namespace Pokemon_ToolBox
                                     }
                                 }
                                 break;
+                            case "Eviolite":
+                                defmod = defmod * 1.5;
+                                break;
                             case "Soul Dew":
                                 if (matcherAttacks.ContainsKey(comboBox2.SelectedItem.ToString()))
                                 {
@@ -3914,8 +3917,14 @@ namespace Pokemon_ToolBox
         private void button17_Click(object sender, EventArgs e)
         {
             close();
-            pictureBox1.Image.Dispose();
-            pictureBox2.Image.Dispose();
+            try
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox2.Image.Dispose();
+            }
+            catch (NullReferenceException)
+            {
+            }
             deletepokemonlog();
             MessageBox.Show("Bye!");
             this.Close();

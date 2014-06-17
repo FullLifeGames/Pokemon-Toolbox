@@ -16,9 +16,11 @@ G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.csprojReso
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form1.resources
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Properties.Resources.resources
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.csproj.GenerateResource.Cache
-G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\en\Pokemon ToolBox.resources.dll
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\gsw-FR\Pokemon ToolBox.resources.dll
-G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form1.en.resources
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form1.gsw-FR.resources
-G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\en\Pokemon ToolBox.resources.dll
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\gsw-FR\Pokemon ToolBox.resources.dll
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.exe.manifest
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.application
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.TrustInfo.xml
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.exe.manifest
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.application
