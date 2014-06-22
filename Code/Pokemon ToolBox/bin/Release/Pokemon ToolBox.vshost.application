@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Pokemon ToolBox.exe.manifest" size="6122">
+    <dependentAssembly dependencyType="install" codebase="Pokemon ToolBox.exe.manifest" size="6793">
       <assemblyIdentity name="Pokemon ToolBox.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>M8WV15NE3PmULr2HeVMXtN4sYvdFcHLMN9ZWeWt72Us=</dsig:DigestValue>
+        <dsig:DigestValue>o8hQu8af5Ikw8xMX2VXl7Pd59OMzQBfUpyyrr6L7Iak=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

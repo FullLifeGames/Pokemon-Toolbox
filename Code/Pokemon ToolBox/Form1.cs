@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,12 +7,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace Pokemon_ToolBox
 {
@@ -32,7 +35,7 @@ namespace Pokemon_ToolBox
 
         private void getDatafromSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -68,7 +71,7 @@ namespace Pokemon_ToolBox
                 }
                 if (b)
                 {
-                    f = new FileInfo("C:\\pokemonlog\\" + i + ".log");
+                    f = new FileInfo(System.Environment.CurrentDirectory+"\\" + i + ".log");
                     if (!f.Exists)
                     {
                         FileStream fs = f.Create();
@@ -94,7 +97,7 @@ namespace Pokemon_ToolBox
             progressBar1.BeginInvoke((MethodInvoker)delegate
             {
                 progressBar1.Value=0;
-                progressBar1.Maximum = 100;
+                progressBar1.Maximum = 100;         
             });
         }
 
@@ -108,7 +111,7 @@ namespace Pokemon_ToolBox
 
         private void buildData()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
             if (!d.Exists)
             {
@@ -124,7 +127,7 @@ namespace Pokemon_ToolBox
                 FileInfo f;
                 for (int i = 1; i < 999; i++)
                 {
-                    f = new FileInfo("C:\\pokemonlog\\" + i + ".log");
+                    f = new FileInfo(System.Environment.CurrentDirectory+"\\" + i + ".log");
                     if (f.Exists)
                     {
                         StreamReader sr = new StreamReader(f.OpenRead());
@@ -200,7 +203,7 @@ namespace Pokemon_ToolBox
                         progressBar1.Value++;
                     });
                 }
-                f = new FileInfo("C:\\pokemonlog\\Pokemon.data");
+                f = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
                 if (!f.Exists)
                 {
                     FileStream fs = f.Create();
@@ -336,16 +339,17 @@ namespace Pokemon_ToolBox
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
             if (d.Exists)
             {
-                d = new DirectoryInfo("C:\\pokemonlog\\gifs");
-                FileInfo f1 = new FileInfo("C:\\pokemonlog\\Pokemon.data");
-                FileInfo f2 = new FileInfo("C:\\pokemonlog\\attacks.data");
-                FileInfo f3 = new FileInfo("C:\\pokemonlog\\Items.data");
-                FileInfo f4 = new FileInfo("C:\\pokemonlog\\Natures.data");
-                FileInfo f5 = new FileInfo("C:\\pokemonlog\\Abilities.data");
+                d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
+                FileInfo f1 = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
+                FileInfo f2 = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
+                FileInfo f3 = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
+                FileInfo f4 = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
+                FileInfo f5 = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
+                FileInfo f6 = new FileInfo(System.Environment.CurrentDirectory+"\\gifs.zip");
                 if(f1.Exists)
                 {
                     if(f2.Exists)
@@ -358,6 +362,24 @@ namespace Pokemon_ToolBox
                                 {
                                     if (d.Exists)
                                     {
+                                        init();
+                                        setup();
+                                        stats();
+                                        gifchange(0);
+                                        gifchange(1);
+                                        extraformset(0);
+                                        extraformset(1);
+                                        button11.Visible = false;
+                                    } else if(f6.Exists){
+                                        try
+                                        {
+                                            using (ZipFile zip = ZipFile.Read(System.Environment.CurrentDirectory + "\\gifs.zip"))
+                                            {
+                                                zip.ExtractAll(System.Environment.CurrentDirectory + "\\");
+                                            }                                        
+                                        } 
+                                        catch(Exception)
+                                        {}
                                         init();
                                         setup();
                                         stats();
@@ -388,10 +410,10 @@ namespace Pokemon_ToolBox
 
         private void initPokemon()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo("C:\\pokemonlog\\Pokemon.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
                 if (f.Exists)
                 {
                     matcherPokemon = new Dictionary<string, Pokemon>();
@@ -488,10 +510,10 @@ namespace Pokemon_ToolBox
 
         private void initAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo("C:\\pokemonlog\\Attacks.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Attacks.data");
                 if (f.Exists)
                 {
                     matcherAttacks = new Dictionary<string, Attacks>();
@@ -514,10 +536,10 @@ namespace Pokemon_ToolBox
 
         private void initItems()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo("C:\\pokemonlog\\Items.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
                 if (f.Exists)
                 {
                     matcherItems = new Dictionary<string, Items>();
@@ -554,10 +576,10 @@ namespace Pokemon_ToolBox
 
         private void initNatures()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo("C:\\pokemonlog\\Natures.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
                 if (f.Exists)
                 {
                     matcherNatures = new Dictionary<string, Natures>();
@@ -580,10 +602,10 @@ namespace Pokemon_ToolBox
 
         private void initAbilities()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo("C:\\pokemonlog\\Abilities.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
                 if (f.Exists)
                 {
                     matcherAbilities = new Dictionary<string, string>();
@@ -2008,7 +2030,7 @@ namespace Pokemon_ToolBox
 
         private void dlAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -2020,7 +2042,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo("C:\\pokemonlog\\physical.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\physical.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2038,7 +2060,7 @@ namespace Pokemon_ToolBox
             sw.WriteLine(physical);
             sw.Close();
 
-            f = new FileInfo("C:\\pokemonlog\\special.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\special.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2066,7 +2088,7 @@ namespace Pokemon_ToolBox
 
         private void crawlAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
             if (!d.Exists)
             {
@@ -2074,8 +2096,8 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fp = new FileInfo("C:\\pokemonlog\\physical.log");
-                FileInfo fs = new FileInfo("C:\\pokemonlog\\special.log");
+                FileInfo fp = new FileInfo(System.Environment.CurrentDirectory+"\\physical.log");
+                FileInfo fs = new FileInfo(System.Environment.CurrentDirectory+"\\special.log");
 
                 if (!fp.Exists || !fs.Exists)
                 {
@@ -2083,7 +2105,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo("C:\\pokemonlog\\attacks.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -2326,7 +2348,7 @@ namespace Pokemon_ToolBox
 
         private void getItemsSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -2336,7 +2358,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo("C:\\pokemonlog\\items.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\items.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2365,7 +2387,7 @@ namespace Pokemon_ToolBox
 
         private void buildDataItems()
         {
-             DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+             DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
              if (!d.Exists)
              {
@@ -2373,7 +2395,7 @@ namespace Pokemon_ToolBox
              }
              else
              {
-                 FileInfo fi = new FileInfo("C:\\pokemonlog\\items.log");
+                 FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\items.log");
 
                  if (!fi.Exists)
                  {
@@ -2381,7 +2403,7 @@ namespace Pokemon_ToolBox
                  }
                  else
                  {
-                     FileInfo f = new FileInfo("C:\\pokemonlog\\Items.data");
+                     FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
                      matcherItems = new Dictionary<string, Items>();
                      if (!f.Exists)
                      {
@@ -2630,7 +2652,7 @@ namespace Pokemon_ToolBox
 
         private void getNaturesSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -2640,7 +2662,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo("C:\\pokemonlog\\natures.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\natures.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2671,7 +2693,7 @@ namespace Pokemon_ToolBox
 
         private void buildDataNatures()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
             if (!d.Exists)
             {
@@ -2679,7 +2701,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo("C:\\pokemonlog\\natures.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\natures.log");
 
                 if (!fi.Exists)
                 {
@@ -2687,7 +2709,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo("C:\\pokemonlog\\Natures.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -2792,7 +2814,7 @@ namespace Pokemon_ToolBox
 
         private void clean()
         {
-             DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+             DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
              if (d.Exists)
              {
                  foreach (FileInfo f in d.GetFiles())
@@ -2948,19 +2970,19 @@ namespace Pokemon_ToolBox
             {
                 FileInfo ftest;
                 FileInfo f;
-                DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
                 bool b = false;
                 if (!d.Exists)
                 {
                     d.Create();
                     b = true;
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\Completed.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Completed.data");
                 if (ftest.Exists)
                 {
                     ftest.Delete();
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\Pokemon.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
                 OpenFileDialog dlgFileOpen = new OpenFileDialog();
                 if (!ftest.Exists)
                 {
@@ -2969,9 +2991,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Pokemon Data|Pokemon.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo("C:\\pokemonlog\\Pokemon.data");
+                    f.CopyTo(System.Environment.CurrentDirectory+"\\Pokemon.data");
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\Items.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -2980,9 +3002,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Items Data|Items.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo("C:\\pokemonlog\\Items.data");
+                    f.CopyTo(System.Environment.CurrentDirectory+"\\Items.data");
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\attacks.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -2991,9 +3013,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Attacks Data|attacks.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo("C:\\pokemonlog\\attacks.data");
+                    f.CopyTo(System.Environment.CurrentDirectory+"\\attacks.data");
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\Natures.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3002,9 +3024,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Natures Data|Natures.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo("C:\\pokemonlog\\Natures.data");
+                    f.CopyTo(System.Environment.CurrentDirectory+"\\Natures.data");
                 }
-                ftest = new FileInfo("C:\\pokemonlog\\Abilities.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3013,11 +3035,11 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Abilities Data|Abilities.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo("C:\\pokemonlog\\Abilities.data");
+                    f.CopyTo(System.Environment.CurrentDirectory+"\\Abilities.data");
                 }
                 try
                 {
-                    d = new DirectoryInfo("C:\\pokemonlog\\gifs");
+                    d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
                     if (!d.Exists)
                     {
                         d.Create();
@@ -3028,13 +3050,24 @@ namespace Pokemon_ToolBox
                         d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                         foreach (FileInfo ft in d.GetFiles())
                         {
-                            ft.CopyTo("C:\\pokemonlog\\gifs\\" + ft.Name);
+                            ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
                         }
                     }
                 }
                 catch (ArgumentException)
                 {
+                    try
+                    {
+                        using (ZipFile zip = ZipFile.Read(System.Environment.CurrentDirectory + "\\gifs.zip"))
+                        {
+                            zip.ExtractAll(System.Environment.CurrentDirectory + "\\");
+                        }
+                    }
+                    catch (Exception)
+                    {
 
+                    }
+                    
                 }
                 if (b)
                 {
@@ -3353,7 +3386,7 @@ namespace Pokemon_ToolBox
 
         private void getAbilitiesSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -3363,7 +3396,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo("C:\\pokemonlog\\abilities.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3384,7 +3417,7 @@ namespace Pokemon_ToolBox
             items = wClientp.DownloadString("http://www.serebii.net/blackwhite/ability.shtml");
             
 
-            f = new FileInfo("C:\\pokemonlog\\abilities1.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities1.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3405,7 +3438,7 @@ namespace Pokemon_ToolBox
             items = wClientp.DownloadString("http://www.serebii.net/xy/abilities.shtml");
 
 
-            f = new FileInfo("C:\\pokemonlog\\abilities2.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities2.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3436,7 +3469,7 @@ namespace Pokemon_ToolBox
 
         private void buildDataAbilities()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
             if (!d.Exists)
             {
@@ -3444,7 +3477,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo("C:\\pokemonlog\\abilities.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities.log");
 
                 if (!fi.Exists)
                 {
@@ -3452,7 +3485,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo("C:\\pokemonlog\\Abilities.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -3478,7 +3511,7 @@ namespace Pokemon_ToolBox
                         }
                     }
                     sr.Close();
-                    fi = new FileInfo("C:\\pokemonlog\\abilities1.log");
+                    fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities1.log");
                     sr = new StreamReader(fi.OpenRead());
                     while (!sr.EndOfStream)
                     {
@@ -3489,7 +3522,7 @@ namespace Pokemon_ToolBox
                         }
                     }
                     sr.Close();
-                    fi = new FileInfo("C:\\pokemonlog\\abilities2.log");
+                    fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities2.log");
                     sr = new StreamReader(fi.OpenRead());
                     while (!sr.EndOfStream)
                     {
@@ -3627,7 +3660,7 @@ namespace Pokemon_ToolBox
 
         private void getParentSitegif()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if (!d.Exists)
             {
                 d.Create();
@@ -3637,7 +3670,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo("C:\\pokemonlog\\gifparent.log");
+            f = new FileInfo(System.Environment.CurrentDirectory+"\\gifparent.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3668,7 +3701,7 @@ namespace Pokemon_ToolBox
 
         private void downloadgif()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
 
             if (!d.Exists)
             {
@@ -3676,7 +3709,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo("C:\\pokemonlog\\gifparent.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\gifparent.log");
 
                 if (!fi.Exists)
                 {
@@ -3684,7 +3717,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    d = new DirectoryInfo("C:\\pokemonlog\\gifs");
+                    d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
                     if (!d.Exists)
                     {
                         d.Create();
@@ -3699,7 +3732,7 @@ namespace Pokemon_ToolBox
                         {
                             string temp = s.Substring(s.IndexOf("<a href=\"") + 9, s.IndexOf(".gif\">") + 4 - (s.IndexOf("<a href=\"") + 9));
                             WebClient wClientp = new WebClient();
-                            wClientp.DownloadFile("http://play.pokemonshowdown.com/sprites/xyani/" + temp, "C:\\pokemonlog\\gifs\\" + temp);
+                            wClientp.DownloadFile("http://play.pokemonshowdown.com/sprites/xyani/" + temp, System.Environment.CurrentDirectory+"\\gifs\\" + temp);
 
                         }
                     }
@@ -3711,7 +3744,7 @@ namespace Pokemon_ToolBox
 
         private void gifchange(int c)
         {
-            if (Directory.Exists("C:\\pokemonlog\\gifs"))
+            if (Directory.Exists(System.Environment.CurrentDirectory+"\\gifs"))
             {
                 string s;
                 switch (c)
@@ -3728,10 +3761,10 @@ namespace Pokemon_ToolBox
                         s = s.Replace("é", "e");
                         if (comboBox10.SelectedItem==null||comboBox10.SelectedItem.ToString().Equals("Normal"))
                         {
-                            if (File.Exists("C:\\pokemonlog\\gifs\\" + s + ".gif"))
+                            if (File.Exists(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif"))
                             {
                                 pictureBox1.Visible = true;
-                                using (var fs = new System.IO.FileStream("C:\\pokemonlog\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
                                 {
                                     var ms = new System.IO.MemoryStream();
                                     fs.CopyTo(ms);
@@ -3743,7 +3776,7 @@ namespace Pokemon_ToolBox
                         }
                         else
                         {
-                            string[] f = Directory.GetFiles("C:\\pokemonlog\\gifs");
+                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory+"\\gifs");
                             int count = 1;
                             foreach (string fi in f)
                             {
@@ -3782,10 +3815,10 @@ namespace Pokemon_ToolBox
                         s = s.Replace("é", "e");
                         if (comboBox11.SelectedItem==null||comboBox11.SelectedItem.ToString().Equals("Normal"))
                         {
-                            if (File.Exists("C:\\pokemonlog\\gifs\\" + s + ".gif"))
+                            if (File.Exists(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif"))
                             {
                                 pictureBox2.Visible = true;
-                                using (var fs = new System.IO.FileStream("C:\\pokemonlog\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
                                 {
                                     var ms = new System.IO.MemoryStream();
                                     fs.CopyTo(ms);
@@ -3797,7 +3830,7 @@ namespace Pokemon_ToolBox
                         }
                         else
                         {
-                            string[] f = Directory.GetFiles("C:\\pokemonlog\\gifs");
+                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory+"\\gifs");
                             int count = 1;
                             foreach (string fi in f)
                             {
@@ -3850,10 +3883,10 @@ namespace Pokemon_ToolBox
                 {
                     pictureBox2.Image.Dispose();
                 });
-                DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog\\gifs");
+                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
                 if (d.Exists)
                 {
-                    DirectoryInfo dold = new DirectoryInfo("C:\\pokemonlog\\gifs_old");
+                    DirectoryInfo dold = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs_old");
                     if (dold.Exists)
                     {
                         foreach (FileInfo f in dold.GetFiles())
@@ -3873,7 +3906,7 @@ namespace Pokemon_ToolBox
                     d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                     foreach (FileInfo ft in d.GetFiles())
                     {
-                        ft.CopyTo("C:\\pokemonlog\\gifs\\" + ft.Name);
+                        ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
                     }
                 }
                 else
@@ -3882,7 +3915,7 @@ namespace Pokemon_ToolBox
                     d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                     foreach (FileInfo ft in d.GetFiles())
                     {
-                        ft.CopyTo("C:\\pokemonlog\\gifs\\" + ft.Name);
+                        ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
                     }
                 }
                 MessageBox.Show("Finished! Press Refresh!");                
@@ -3932,7 +3965,7 @@ namespace Pokemon_ToolBox
 
         private void deletepokemonlog()
         {
-            DirectoryInfo d = new DirectoryInfo("C:\\pokemonlog");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if(d.Exists)
             {
                 deletefolder(d);

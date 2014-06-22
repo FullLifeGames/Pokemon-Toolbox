@@ -24,3 +24,21 @@ G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.applicatio
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.TrustInfo.xml
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.exe.manifest
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.application
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.exe.config
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.exe
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.pdb
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.exe.manifest
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.application
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.exe
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Pokemon ToolBox.pdb
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\gsw-FR\Pokemon ToolBox.resources.dll
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Debug\Ionic.Zip.dll
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.csprojResolveAssemblyReference.cache
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form1.resources
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Properties.Resources.resources
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form1.gsw-FR.resources
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.csproj.GenerateResource.Cache
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\gsw-FR\Pokemon ToolBox.resources.dll
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.TrustInfo.xml
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.exe.manifest
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.application

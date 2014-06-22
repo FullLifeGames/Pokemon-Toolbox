@@ -41,3 +41,4 @@ G:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Release\Pokemon ToolBox.applicat
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.TrustInfo.xml
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.exe.manifest
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.application
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Release\Ionic.Zip.dll
