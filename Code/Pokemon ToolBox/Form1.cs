@@ -1447,15 +1447,15 @@ namespace Pokemon_ToolBox
                                 }
                                 mincalc = (int)(mincalc * mod3 * e);
                                 maxcalc = (int)(maxcalc * mod3 * e);
-                                int minprozenta = (int)((((double)mincalc) / double.Parse(label30.Text)) * 10000);
-                                int minprozentb = minprozenta % 100;
-                                string minprozentc = (minprozentb / 10) + "" + (minprozentb % 10);
-                                minprozenta = minprozenta / 100;
-                                int maxprozenta = (int)((((double)maxcalc) / double.Parse(label30.Text)) * 10000);
-                                int maxprozentb = maxprozenta % 100;
-                                string maxprozentc = (maxprozentb / 10) + "" + (maxprozentb % 10);
-                                maxprozenta = maxprozenta / 100;
-                                label4.Text = "Damagecalc: " + " MinDamage: " + mincalc + " MinProzent: " + minprozenta + "." + minprozentc + "% MaxDamage: " + maxcalc + " MaxProzent: " + maxprozenta + "." + maxprozentc + "%";
+                                int minPercenta = (int)((((double)mincalc) / double.Parse(label30.Text)) * 10000);
+                                int minPercentb = minPercenta % 100;
+                                string minPercentc = (minPercentb / 10) + "" + (minPercentb % 10);
+                                minPercenta = minPercenta / 100;
+                                int maxPercenta = (int)((((double)maxcalc) / double.Parse(label30.Text)) * 10000);
+                                int maxPercentb = maxPercenta % 100;
+                                string maxPercentc = (maxPercentb / 10) + "" + (maxPercentb % 10);
+                                maxPercenta = maxPercenta / 100;
+                                textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s " + a.name + " does MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to "+comboBox3.SelectedItem.ToString();
                             }
                             catch (FormatException)
                             {
@@ -1465,7 +1465,7 @@ namespace Pokemon_ToolBox
                         else
                         {
 
-                            label4.Text = "Damagecalc: " + " MinDamage: " + 0 + " MinProzent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxProzent: " + 0 + "." + 0 + "%";
+                            textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s " + a.name + " does MinDamage: " + 0 + " MinPercent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxPercent: " + 0 + "." + 0 + "%";
             
                         }
                 
@@ -1473,7 +1473,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                label4.Text = "Damagecalc: " + " MinDamage: " + 0 + " MinProzent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxProzent: " + 0 + "." + 0 + "%";
+                textBox33.Text = "Damagecalc: " + " MinDamage: " + 0 + " MinPercent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxPercent: " + 0 + "." + 0 + "%";
             }
         }
 

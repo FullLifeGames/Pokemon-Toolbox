@@ -35,7 +35,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button2 = new System.Windows.Forms.Button();
@@ -151,6 +150,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.button17 = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
+            this.textBox33 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -190,11 +190,6 @@
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
             // 
             // button1
             // 
@@ -905,10 +900,17 @@
             resources.ApplyResources(this.label46, "label46");
             this.label46.Name = "label46";
             // 
+            // textBox33
+            // 
+            resources.ApplyResources(this.textBox33, "textBox33");
+            this.textBox33.Name = "textBox33";
+            this.textBox33.ReadOnly = true;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textBox33);
             this.Controls.Add(this.label46);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.label31);
@@ -1024,7 +1026,6 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -1049,7 +1050,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -1165,6 +1165,7 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.TextBox textBox33;
     }
 }
 
