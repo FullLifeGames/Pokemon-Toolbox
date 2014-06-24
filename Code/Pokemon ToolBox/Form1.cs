@@ -362,6 +362,7 @@ namespace Pokemon_ToolBox
                                 {
                                     if (d.Exists)
                                     {
+                                        itemCheck = false;
                                         init();
                                         setup();
                                         stats();
@@ -370,6 +371,7 @@ namespace Pokemon_ToolBox
                                         extraformset(0);
                                         extraformset(1);
                                         button11.Visible = false;
+                                        itemCheck = true;
                                     } else if(f6.Exists){
                                         try
                                         {
@@ -380,6 +382,7 @@ namespace Pokemon_ToolBox
                                         } 
                                         catch(Exception)
                                         {}
+                                        itemCheck = false;
                                         init();
                                         setup();
                                         stats();
@@ -388,6 +391,7 @@ namespace Pokemon_ToolBox
                                         extraformset(0);
                                         extraformset(1);
                                         button11.Visible = false;
+                                        itemCheck = true;
                                     }
                                 }
                             }
@@ -646,8 +650,10 @@ namespace Pokemon_ToolBox
                     }
                 }
             }
-
-            comboBox13.SelectedItem = "normal";
+            if (comboBox13.SelectedItem == null)
+            {
+                comboBox13.SelectedItem = "normal";
+            }
             comboBox13.Sorted = true;
 
             if (comboBox2.Items.Count == 0)
@@ -903,7 +909,6 @@ namespace Pokemon_ToolBox
                         label24.Text = wert + "";
                         label34.Text = pa.type1;
                         label33.Text = pa.type2;
-                        damagecalc();
                     }
                     else
                     {
@@ -954,7 +959,6 @@ namespace Pokemon_ToolBox
                             label33.Text = pa.type2;
                         }
                        
-                        damagecalc();
                     }
 
                     if (comboBox11.SelectedItem == null || comboBox11.SelectedItem.ToString().Equals("Normal"))
@@ -998,7 +1002,6 @@ namespace Pokemon_ToolBox
                         label25.Text = wert + "";
                         label35.Text = pa.type1;
                         label36.Text = pa.type2;
-                        damagecalc();
                     }
                     else
                     {
@@ -1040,8 +1043,9 @@ namespace Pokemon_ToolBox
                         label25.Text = wert + "";
                         label35.Text = pa.sondertype1[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
                         label36.Text = pa.sondertype2[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
-                        damagecalc();
+                        
                     }
+                    damagecalc();
                 }
                 catch (FormatException)
                 {
@@ -1101,8 +1105,7 @@ namespace Pokemon_ToolBox
             if (comboBox7.SelectedItem==null||(comboBox7.SelectedItem!=null&&(comboBox7.SelectedItem.ToString().Equals("Wonder Guard") && checkopponenttype1() * checkopponenttype2() > 1)||(!comboBox7.SelectedItem.ToString().Equals("Wonder Guard"))))
             {            
                 if (comboBox2.SelectedItem != null)
-                {
-                    
+                {                    
                         int atk;
                         int def;
                         Attacks a = matcherAttacks[comboBox2.SelectedItem.ToString()];
@@ -1945,34 +1948,40 @@ namespace Pokemon_ToolBox
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox10.SelectedItem != null && !comboBox10.SelectedItem.Equals("Normal"))
+            if (itemCheck)
             {
-                comboBox10.SelectedItem = "Normal";
+                if (comboBox10.SelectedItem != null && !comboBox10.SelectedItem.Equals("Normal"))
+                {
+                    comboBox10.SelectedItem = "Normal";
+                }
+                itemChoice();
+                itemDefend();
+                modCheck();
+                gifchange(0);
+                Wesen1();
+                Wesen2();
+                stats();
+                extraformset(0);
             }
-            itemChoice();
-            itemDefend();
-            modCheck();
-            gifchange(0);
-            Wesen1();
-            Wesen2();
-            stats();
-            extraformset(0);
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox11.SelectedItem != null && !comboBox11.SelectedItem.Equals("Normal"))
+            if (itemCheck)
             {
-                comboBox11.SelectedItem = "Normal";
+                if (comboBox11.SelectedItem != null && !comboBox11.SelectedItem.Equals("Normal"))
+                {
+                    comboBox11.SelectedItem = "Normal";
+                }
+                itemChoice();
+                itemDefend();
+                modCheck();
+                gifchange(1);
+                Wesen1();
+                Wesen2();
+                stats();
+                extraformset(1);
             }
-            itemChoice();
-            itemDefend();
-            modCheck();
-            gifchange(1);
-            Wesen1();
-            Wesen2();
-            stats();
-            extraformset(1);
         }
 
         private void extraformset(int a)
@@ -2464,7 +2473,9 @@ namespace Pokemon_ToolBox
         {
             atkmod = 1;
             mod1 = 1;
-            mod2 = 1;            
+            mod2 = 1;
+
+            mod3 = 1;
             try
             {
                 if (matcherItems.ContainsKey(comboBox4.SelectedItem.ToString()))
@@ -2485,7 +2496,7 @@ namespace Pokemon_ToolBox
                         switch (comboBox4.SelectedItem.ToString())
                         {
                             case "Life Orb":
-                                mod2 = mod2 * 1.3;
+                                mod3 = mod3 * 1.3;
                                 break;
                             case "Choice Band":
                                 if (matcherAttacks.ContainsKey(comboBox2.SelectedItem.ToString()))
@@ -2561,7 +2572,6 @@ namespace Pokemon_ToolBox
         private void itemDefend()
         {
             defmod = 1;
-            mod3 = 1;
             try
             {
                 if (matcherItems.ContainsKey(comboBox5.SelectedItem.ToString()))
@@ -3950,6 +3960,7 @@ namespace Pokemon_ToolBox
         private void button17_Click(object sender, EventArgs e)
         {
             close();
+            clean();
             try
             {
                 pictureBox1.Image.Dispose();
@@ -3959,7 +3970,7 @@ namespace Pokemon_ToolBox
             {
             }
             deletepokemonlog();
-            MessageBox.Show("Bye!");
+            MessageBox.Show("Bye! Now delete manually the Pokemon ToolBox.exe!");
             this.Close();
         }
 
@@ -3968,6 +3979,37 @@ namespace Pokemon_ToolBox
             DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
             if(d.Exists)
             {
+                FileInfo f1 = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
+                FileInfo f2 = new FileInfo(System.Environment.CurrentDirectory + "\\attacks.data");
+                FileInfo f3 = new FileInfo(System.Environment.CurrentDirectory + "\\Items.data");
+                FileInfo f4 = new FileInfo(System.Environment.CurrentDirectory + "\\Natures.data");
+                FileInfo f5 = new FileInfo(System.Environment.CurrentDirectory + "\\Abilities.data");
+                FileInfo f6 = new FileInfo(System.Environment.CurrentDirectory + "\\gifs.zip");
+                d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs\\");
+                if (f1.Exists)
+                {
+                    f1.Delete();
+                }
+                if (f2.Exists)
+                {
+                    f2.Delete();
+                }
+                if (f3.Exists)
+                {
+                    f3.Delete();
+                }
+                if (f4.Exists)
+                {
+                    f4.Delete();
+                }
+                if (f5.Exists)
+                {
+                    f5.Delete();
+                }
+                if (f6.Exists)
+                {
+                    f6.Delete();
+                }
                 deletefolder(d);
             }
         }
