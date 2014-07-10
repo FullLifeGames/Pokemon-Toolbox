@@ -42,3 +42,6 @@ G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.TrustInf
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.exe.manifest
 G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon ToolBox.application
 L:\Projects\Pokemon ToolBox\Pokemon ToolBox\bin\Release\Ionic.Zip.dll
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon_ToolBox.FormControl.resources
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon_ToolBox.Form2.resources
+G:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Release\Pokemon_ToolBox.FormQuizControl.resources

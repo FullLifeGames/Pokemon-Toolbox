@@ -35,7 +35,7 @@ namespace Pokemon_ToolBox
 
         private void getDatafromSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -43,14 +43,15 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
             WebClient wClient = new WebClient();
-            progressBar1.BeginInvoke((MethodInvoker) delegate{
+            progressBar1.BeginInvoke((MethodInvoker)delegate
+            {
                 progressBar1.Maximum = 999;
                 progressBar1.Value = 0;
             });
             for (int i = 1; i < 1000; i++)
             {
-                bool b = true;             
-                
+                bool b = true;
+
                 string s = "";
                 try
                 {
@@ -66,12 +67,14 @@ namespace Pokemon_ToolBox
                     {
                         s = wClient.DownloadString("http://www.serebii.net/pokedex-xy/" + i + ".shtml");
                     }
-                } catch(WebException){
+                }
+                catch (WebException)
+                {
                     b = false;
                 }
                 if (b)
                 {
-                    f = new FileInfo(System.Environment.CurrentDirectory+"\\" + i + ".log");
+                    f = new FileInfo(System.Environment.CurrentDirectory + "\\" + i + ".log");
                     if (!f.Exists)
                     {
                         FileStream fs = f.Create();
@@ -96,8 +99,8 @@ namespace Pokemon_ToolBox
             MessageBox.Show("Finished!");
             progressBar1.BeginInvoke((MethodInvoker)delegate
             {
-                progressBar1.Value=0;
-                progressBar1.Maximum = 100;         
+                progressBar1.Value = 0;
+                progressBar1.Maximum = 100;
             });
         }
 
@@ -111,7 +114,7 @@ namespace Pokemon_ToolBox
 
         private void buildData()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
             if (!d.Exists)
             {
@@ -127,7 +130,7 @@ namespace Pokemon_ToolBox
                 FileInfo f;
                 for (int i = 1; i < 999; i++)
                 {
-                    f = new FileInfo(System.Environment.CurrentDirectory+"\\" + i + ".log");
+                    f = new FileInfo(System.Environment.CurrentDirectory + "\\" + i + ".log");
                     if (f.Exists)
                     {
                         StreamReader sr = new StreamReader(f.OpenRead());
@@ -138,14 +141,15 @@ namespace Pokemon_ToolBox
                         bool type = true;
                         while (!sr.EndOfStream)
                         {
-                            count++;                            
+                            count++;
                             string s = sr.ReadLine();
                             if (count == 6)
                             {
                                 dict.Add(i, new List<string>());
-                                dict[i].Add(s.Substring(7,s.IndexOf(" ")-7));
+                                dict[i].Add(s.Substring(7, s.IndexOf(" ") - 7));
                             }
-                            if(s.Contains("shtml\"><img src=\"/pokedex-bw/type/")){
+                            if (s.Contains("shtml\"><img src=\"/pokedex-bw/type/"))
+                            {
                                 if (type)
                                 {
                                     type = false;
@@ -169,20 +173,21 @@ namespace Pokemon_ToolBox
 
                             if (s.Contains("<td class=\"foo\">Weight</td>"))
                             {
-                                a = count+7;
+                                a = count + 7;
                                 b = a + 2;
                             }
 
-                            if (count == a||count == b)
+                            if (count == a || count == b)
                             {
-                                while(s.IndexOf("\t")==0)
+                                while (s.IndexOf("\t") == 0)
                                 {
-                                    s=s.Substring(1);
+                                    s = s.Substring(1);
                                 }
                                 dict[i].Add(s.Substring(0, s.IndexOf("</td>")));
                             }
 
-                            if(s.Contains("<tr><td colspan=\"2\" width=\"14%\" class=\"fooinfo\">Base Stats - Total:")){
+                            if (s.Contains("<tr><td colspan=\"2\" width=\"14%\" class=\"fooinfo\">Base Stats - Total:"))
+                            {
                                 check.Add(count + 1, true);
                                 check.Add(count + 2, true);
                                 check.Add(count + 3, true);
@@ -193,7 +198,7 @@ namespace Pokemon_ToolBox
                             if (check.ContainsKey(count))
                             {
                                 string temp = s.Substring(35);
-                                dict[i].Add(temp.Substring(0,temp.IndexOf("</")));
+                                dict[i].Add(temp.Substring(0, temp.IndexOf("</")));
                             }
                         }
                         sr.Close();
@@ -203,7 +208,7 @@ namespace Pokemon_ToolBox
                         progressBar1.Value++;
                     });
                 }
-                f = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
+                f = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
                 if (!f.Exists)
                 {
                     FileStream fs = f.Create();
@@ -223,7 +228,7 @@ namespace Pokemon_ToolBox
                     {
                         s = s + " " + temp;
                     }
-                    sw.WriteLine(t.Key + "  " + s+" ");
+                    sw.WriteLine(t.Key + "  " + s + " ");
                 }
                 sw.Close();
                 MessageBox.Show("Finished!");
@@ -234,12 +239,12 @@ namespace Pokemon_ToolBox
                 });
             }
 
-            
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            close();            
+            close();
         }
 
         private void close()
@@ -339,20 +344,20 @@ namespace Pokemon_ToolBox
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
             if (d.Exists)
             {
-                d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
-                FileInfo f1 = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
-                FileInfo f2 = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
-                FileInfo f3 = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
-                FileInfo f4 = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
-                FileInfo f5 = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
-                FileInfo f6 = new FileInfo(System.Environment.CurrentDirectory+"\\gifs.zip");
-                if(f1.Exists)
+                d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs");
+                FileInfo f1 = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
+                FileInfo f2 = new FileInfo(System.Environment.CurrentDirectory + "\\attacks.data");
+                FileInfo f3 = new FileInfo(System.Environment.CurrentDirectory + "\\Items.data");
+                FileInfo f4 = new FileInfo(System.Environment.CurrentDirectory + "\\Natures.data");
+                FileInfo f5 = new FileInfo(System.Environment.CurrentDirectory + "\\Abilities.data");
+                FileInfo f6 = new FileInfo(System.Environment.CurrentDirectory + "\\gifs.zip");
+                if (f1.Exists)
                 {
-                    if(f2.Exists)
+                    if (f2.Exists)
                     {
                         if (f3.Exists)
                         {
@@ -372,16 +377,18 @@ namespace Pokemon_ToolBox
                                         extraformset(1);
                                         button11.Visible = false;
                                         itemCheck = true;
-                                    } else if(f6.Exists){
+                                    }
+                                    else if (f6.Exists)
+                                    {
                                         try
                                         {
                                             using (ZipFile zip = ZipFile.Read(System.Environment.CurrentDirectory + "\\gifs.zip"))
                                             {
                                                 zip.ExtractAll(System.Environment.CurrentDirectory + "\\");
-                                            }                                        
-                                        } 
-                                        catch(Exception)
-                                        {}
+                                            }
+                                        }
+                                        catch (Exception)
+                                        { }
                                         itemCheck = false;
                                         init();
                                         setup();
@@ -414,10 +421,10 @@ namespace Pokemon_ToolBox
 
         private void initPokemon()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
                 if (f.Exists)
                 {
                     matcherPokemon = new Dictionary<string, Pokemon>();
@@ -453,10 +460,10 @@ namespace Pokemon_ToolBox
                             if (s.Length > 0 && s.Substring(0, s.IndexOf(" ")).EndsWith("m"))
                             {
                                 double h = Convert.ToDouble((s.Substring(0, s.IndexOf(" ") - 1)), NumberFormatInfo.InvariantInfo);
-                                
+
                                 s = s.Substring(s.IndexOf(" ") + 1);
                                 double w = Convert.ToDouble((s.Substring(0, s.IndexOf(" ") - 2)), NumberFormatInfo.InvariantInfo);
-                                
+
                                 s = s.Substring(s.IndexOf(" ") + 1);
                                 sonderheight.Add(h);
                                 sonderweight.Add(w);
@@ -478,7 +485,7 @@ namespace Pokemon_ToolBox
 
                                 s = s.Substring(s.IndexOf(" ") + 1);
                                 double w = Convert.ToDouble((s.Substring(0, s.IndexOf(" ") - 2)), NumberFormatInfo.InvariantInfo);
-                                
+
                                 s = s.Substring(s.IndexOf(" ") + 1);
                                 sonderheight.Add(h);
                                 sonderweight.Add(w);
@@ -514,10 +521,10 @@ namespace Pokemon_ToolBox
 
         private void initAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Attacks.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Attacks.data");
                 if (f.Exists)
                 {
                     matcherAttacks = new Dictionary<string, Attacks>();
@@ -540,10 +547,10 @@ namespace Pokemon_ToolBox
 
         private void initItems()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Items.data");
                 if (f.Exists)
                 {
                     matcherItems = new Dictionary<string, Items>();
@@ -580,10 +587,10 @@ namespace Pokemon_ToolBox
 
         private void initNatures()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Natures.data");
                 if (f.Exists)
                 {
                     matcherNatures = new Dictionary<string, Natures>();
@@ -594,7 +601,7 @@ namespace Pokemon_ToolBox
                         string[] sp = s.Split('~');
                         if (sp.Length > 2)
                         {
-                            matcherNatures.Add(sp[0], new Natures(sp[0], sp[1], sp[2]));                            
+                            matcherNatures.Add(sp[0], new Natures(sp[0], sp[1], sp[2]));
                         }
                     }
                     sr.Close();
@@ -606,10 +613,10 @@ namespace Pokemon_ToolBox
 
         private void initAbilities()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (d.Exists)
             {
-                FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
+                FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Abilities.data");
                 if (f.Exists)
                 {
                     matcherAbilities = new Dictionary<string, string>();
@@ -669,7 +676,7 @@ namespace Pokemon_ToolBox
                 foreach (KeyValuePair<string, Items> items in matcherItems.OrderBy(key => key.Key))
                 {
                     comboBox4.Items.Add(items.Key);
-                    comboBox5.Items.Add(items.Key);                    
+                    comboBox5.Items.Add(items.Key);
                 }
             }
 
@@ -831,7 +838,7 @@ namespace Pokemon_ToolBox
             Typechart["dark"].Add("bug", 2);
             Typechart["dark"].Add("ghost", 0.5);
             Typechart["dark"].Add("psychic", 0);
-            Typechart["dark"].Add("dark", 0-5);
+            Typechart["dark"].Add("dark", 0 - 5);
             Typechart["dark"].Add("fairy", 2);
             Typechart.Add("fairy", new Dictionary<string, double>());
             Typechart["fairy"].Add("fighting", 0.5);
@@ -858,17 +865,33 @@ namespace Pokemon_ToolBox
         double BWesenspe = 1;
         private void stats()
         {
-            try            {                try                {                    int Iv1 = 31;                    int Iv2 = 31;                    int Iv3 = 31;                    int Iv4 = 31;                    int Iv5 = 31;                    int Iv6 = 31;                    int BIv1 = 31;                    int BIv2 = 31;                    int BIv3 = 31;                    int BIv4 = 31;                    int BIv5 = 31;                    int BIv6 = 31;                    try                    {                        Iv1 = int.Parse(textBox26.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        Iv2 = int.Parse(textBox25.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        Iv3 = int.Parse(textBox24.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        Iv4 = int.Parse(textBox23.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        Iv5 = int.Parse(textBox22.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        Iv6 = int.Parse(textBox21.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv1 = int.Parse(textBox20.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv2 = int.Parse(textBox19.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv3 = int.Parse(textBox18.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv4 = int.Parse(textBox17.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv5 = int.Parse(textBox16.Text);                    }                    catch (FormatException)                    {                    }                    try                    {                        BIv6 = int.Parse(textBox15.Text);                    }                    catch (FormatException)                    {                    }
-            Wesena *= multiplier(textBox34);
-            Wesend *= multiplier(textBox35);
-            Wesensa *= multiplier(textBox36);
-            Wesensd *= multiplier(textBox37);
-            Wesenspe *= multiplier(textBox38);
-            BWesena *= multiplier(textBox28);
-            BWesend *= multiplier(textBox29);
-            BWesensa *= multiplier(textBox30);
-            BWesensd *= multiplier(textBox31);
-            BWesenspe *= multiplier(textBox32);
+            try
+            {
+                try
+                {
+                    int Iv1 = 31; int Iv2 = 31; int Iv3 = 31; int Iv4 = 31; int Iv5 = 31; int Iv6 = 31; int BIv1 = 31; int BIv2 = 31; int BIv3 = 31; int BIv4 = 31; int BIv5 = 31; int BIv6 = 31; try { Iv1 = int.Parse(textBox26.Text); }
+                    catch (FormatException) { } try { Iv2 = int.Parse(textBox25.Text); }
+                    catch (FormatException) { } try { Iv3 = int.Parse(textBox24.Text); }
+                    catch (FormatException) { } try { Iv4 = int.Parse(textBox23.Text); }
+                    catch (FormatException) { } try { Iv5 = int.Parse(textBox22.Text); }
+                    catch (FormatException) { } try { Iv6 = int.Parse(textBox21.Text); }
+                    catch (FormatException) { } try { BIv1 = int.Parse(textBox20.Text); }
+                    catch (FormatException) { } try { BIv2 = int.Parse(textBox19.Text); }
+                    catch (FormatException) { } try { BIv3 = int.Parse(textBox18.Text); }
+                    catch (FormatException) { } try { BIv4 = int.Parse(textBox17.Text); }
+                    catch (FormatException) { } try { BIv5 = int.Parse(textBox16.Text); }
+                    catch (FormatException) { } try { BIv6 = int.Parse(textBox15.Text); }
+                    catch (FormatException) { }
+                    Wesena *= multiplier(textBox34);
+                    Wesend *= multiplier(textBox35);
+                    Wesensa *= multiplier(textBox36);
+                    Wesensd *= multiplier(textBox37);
+                    Wesenspe *= multiplier(textBox38);
+                    BWesena *= multiplier(textBox28);
+                    BWesend *= multiplier(textBox29);
+                    BWesensa *= multiplier(textBox30);
+                    BWesensd *= multiplier(textBox31);
+                    BWesenspe *= multiplier(textBox32);
                     if (comboBox10.SelectedItem == null || comboBox10.SelectedItem.ToString().Equals("Normal"))
                     {
                         Pokemon pa;
@@ -878,7 +901,14 @@ namespace Pokemon_ToolBox
                         }
                         catch (NullReferenceException)
                         {
-                            pa = matcherPokemon[comboBox1.Text];
+                            if (matcherPokemon.ContainsKey(comboBox1.Text))
+                            {
+                                pa = matcherPokemon[comboBox1.Text];
+                            }
+                            else
+                            {
+                                pa = matcherPokemon["Bulbasaur"];
+                            }
                         }
                         int fp = (int.Parse(textBox1.Text));
                         double level = (double.Parse(textBox13.Text));
@@ -954,11 +984,13 @@ namespace Pokemon_ToolBox
                         {
                             label34.Text = pa.sondertype1[int.Parse(comboBox10.SelectedItem.ToString().Substring(5)) - 1];
                             label33.Text = pa.sondertype2[int.Parse(comboBox10.SelectedItem.ToString().Substring(5)) - 1];
-                        } else {
+                        }
+                        else
+                        {
                             label34.Text = pa.type1;
                             label33.Text = pa.type2;
                         }
-                       
+
                     }
 
                     if (comboBox11.SelectedItem == null || comboBox11.SelectedItem.ToString().Equals("Normal"))
@@ -970,7 +1002,14 @@ namespace Pokemon_ToolBox
                         }
                         catch (NullReferenceException)
                         {
-                            pa = matcherPokemon[comboBox3.Text];
+                            if (matcherPokemon.ContainsKey(comboBox3.Text))
+                            {
+                                pa = matcherPokemon[comboBox3.Text];
+                            }
+                            else
+                            {
+                                pa = matcherPokemon["Bulbasaur"];
+                            }
                         }
                         int fp = (int.Parse(textBox12.Text));
                         double level = (double.Parse(textBox14.Text));
@@ -1025,7 +1064,7 @@ namespace Pokemon_ToolBox
                         {
                             wert = 1;
                         }
-                            label30.Text = wert + "";
+                        label30.Text = wert + "";
                         fp = (int.Parse(textBox11.Text));
                         wert = (int)(((2 * pa.sonderstats[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1][1] + BIv2 + fp / 4) * (level / 100) + 5) * BWesena);
                         label29.Text = wert + "";
@@ -1043,7 +1082,7 @@ namespace Pokemon_ToolBox
                         label25.Text = wert + "";
                         label35.Text = pa.sondertype1[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
                         label36.Text = pa.sondertype2[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
-                        
+
                     }
                     damagecalc();
                 }
@@ -1062,14 +1101,14 @@ namespace Pokemon_ToolBox
         {
             t.Text.Trim();
             if (t == textBox34 && comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Hustle"))
-            { 
+            {
             }
-            else if (t.Text.Equals("")||t.Text.Equals("0"))
+            else if (t.Text.Equals("") || t.Text.Equals("0"))
             {
                 return 1;
             }
             try
-            {                
+            {
                 int a = int.Parse(t.Text);
                 if (t == textBox34 && comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Hustle"))
                 {
@@ -1081,7 +1120,7 @@ namespace Pokemon_ToolBox
                 }
                 else if (a < 0)
                 {
-                    return 2/((double)Math.Abs(a)+2);
+                    return 2 / ((double)Math.Abs(a) + 2);
                 }
                 else
                 {
@@ -1097,290 +1136,352 @@ namespace Pokemon_ToolBox
 
         double atkmod = 1;
         double defmod = 1;
-        double mod1=1;
-        double mod2=1;
-        double mod3=1;
+        double mod1 = 1;
+        double mod2 = 1;
+        double mod3 = 1;
         private void damagecalc()
         {
-            if (comboBox7.SelectedItem==null||(comboBox7.SelectedItem!=null&&(comboBox7.SelectedItem.ToString().Equals("Wonder Guard") && checkopponenttype1() * checkopponenttype2() > 1)||(!comboBox7.SelectedItem.ToString().Equals("Wonder Guard"))))
-            {            
+            if (comboBox7.SelectedItem == null || (comboBox7.SelectedItem != null && (comboBox7.SelectedItem.ToString().Equals("Wonder Guard") && checkopponenttype1() * checkopponenttype2() > 1) || (!comboBox7.SelectedItem.ToString().Equals("Wonder Guard"))))
+            {
                 if (comboBox2.SelectedItem != null)
-                {                    
-                        int atk;
-                        int def;
-                        Attacks a = matcherAttacks[comboBox2.SelectedItem.ToString()];
-                        try
-                        {
-                            a = new Attacks(a.name, int.Parse(textBox27.Text), a.split, a.type);
-                        }
-                        catch (FormatException)
-                        {
+                {
+                    int atk;
+                    int def;
+                    Attacks a = matcherAttacks[comboBox2.SelectedItem.ToString()];
+                    try
+                    {
+                        a = new Attacks(a.name, int.Parse(textBox27.Text), a.split, a.type);
+                    }
+                    catch (FormatException)
+                    {
 
-                        }
-                        try
-                        {
-                            a = new Attacks(a.name, a.strength, a.split, comboBox13.SelectedItem.ToString());
-                        }
-                        catch (NullReferenceException)
-                        {
+                    }
+                    try
+                    {
+                        a = new Attacks(a.name, a.strength, a.split, comboBox13.SelectedItem.ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
 
-                        }
+                    }
 
-                        a = paramAttack(a);
+                    a = paramAttack(a);
+                    int atkevs = 0;
+                    int defevs = 0;
+                    int hpevs = 0;
+                    int levela = 100;
+                    int levelb = 100;
+                    string atkab = "";
+                    string defab = "";
+                    try
+                    {
+                        levela = int.Parse(textBox13.Text);
+                    }
+                    catch (FormatException)
+                    {
+                    }
+                    try
+                    {
+                        levelb = int.Parse(textBox14.Text);
+                    }
+                    catch (FormatException)
+                    {
+                    }
+
+
+                    if (a.strength != 0)
+                    {
+                        comboBox13.SelectedItem = a.type;
+                        label46.Text = a.strength + "";
                         
-                        if (a.strength!=0)                        
-                        {                            
-                            comboBox13.SelectedItem = a.type;
-                            label46.Text = a.strength+"";
-                            if (a.split == 0)
+                        if (a.split == 0)
+                        {
+                            if (comboBox6.SelectedItem != null && (comboBox6.SelectedItem.ToString().Equals("Huge Power") || comboBox6.SelectedItem.ToString().Equals("Pure Power")))
                             {
-                                if (comboBox6.SelectedItem != null && (comboBox6.SelectedItem.ToString().Equals("Huge Power") || comboBox6.SelectedItem.ToString().Equals("Pure Power")))
+                                if (a.name.Equals("Foul Play"))
                                 {
-                                    if (a.name.Equals("Foul Play"))
+                                    if (comboBox7.SelectedItem != null && (comboBox7.SelectedItem.ToString().Equals("Huge Power") || comboBox7.SelectedItem.ToString().Equals("Pure Power")))
                                     {
-                                        if (comboBox7.SelectedItem != null && (comboBox7.SelectedItem.ToString().Equals("Huge Power") || comboBox7.SelectedItem.ToString().Equals("Pure Power")))
+                                        atk = int.Parse(label29.Text) * 2;
+                                        try
                                         {
-                                            atk = int.Parse(label29.Text) * 2;
+                                            atkevs = int.Parse(textBox11.Text);
                                         }
-                                        else
+                                        catch (FormatException)
                                         {
-                                            atk = int.Parse(label29.Text);
                                         }
                                     }
                                     else
                                     {
-                                        atk = int.Parse(label20.Text) * 2;
+                                        atk = int.Parse(label29.Text);
+                                        try
+                                        {
+                                            atkevs = int.Parse(textBox11.Text);
+                                        }
+                                        catch (FormatException)
+                                        {
+                                        }
                                     }
-                                    
                                 }
                                 else
                                 {
-                                    if (a.name.Equals("Foul Play"))
+                                    atk = int.Parse(label20.Text) * 2;
+                                    try
                                     {
-                                        if (comboBox7.SelectedItem != null && (comboBox7.SelectedItem.ToString().Equals("Huge Power") || comboBox7.SelectedItem.ToString().Equals("Pure Power")))
+                                        atkevs = int.Parse(textBox2.Text);
+                                    }
+                                    catch (FormatException)
+                                    {
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                if (a.name.Equals("Foul Play"))
+                                {
+                                    if (comboBox7.SelectedItem != null && (comboBox7.SelectedItem.ToString().Equals("Huge Power") || comboBox7.SelectedItem.ToString().Equals("Pure Power")))
+                                    {
+                                        atk = int.Parse(label29.Text) * 2;
+                                        try
                                         {
-                                            atk = int.Parse(label29.Text) * 2;
+                                            atkevs = int.Parse(textBox11.Text);
                                         }
-                                        else
+                                        catch (FormatException)
                                         {
-                                            atk = int.Parse(label29.Text);
                                         }
                                     }
                                     else
                                     {
-                                        atk = int.Parse(label20.Text);
+                                        atk = int.Parse(label29.Text);
+                                        try
+                                        {
+                                            atkevs = int.Parse(textBox11.Text);
+                                        }
+                                        catch (FormatException)
+                                        {
+                                        }
                                     }
                                 }
+                                else
+                                {
+                                    atk = int.Parse(label20.Text);
+                                    try
+                                    {
+                                        atkevs = int.Parse(textBox2.Text);
+                                    }
+                                    catch (FormatException)
+                                    {
+                                    }
+                                }
+                            }
+                            
+                            def = int.Parse(label28.Text);
+                            try
+                            {
+                                defevs = int.Parse(textBox10.Text);
+                            }
+                            catch (FormatException)
+                            {
+                            }
+                            if (comboBox8.SelectedItem != null)
+                            {
+                                if (matcherNatures[comboBox8.SelectedItem.ToString()].raises.Equals("Attack"))
+                                {
+                                    atkab = "+";
+                                }
+                                if (matcherNatures[comboBox8.SelectedItem.ToString()].lowers.Equals("Attack"))
+                                {
+                                    atkab = "-";
+                                }
+                            }
+                            if (comboBox9.SelectedItem != null)
+                            {
+                                if (matcherNatures[comboBox9.SelectedItem.ToString()].raises.Equals("Defense"))
+                                {
+                                    defab = "+";
+                                }
+                                if (matcherNatures[comboBox9.SelectedItem.ToString()].lowers.Equals("Defense"))
+                                {
+                                    defab = "-";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            atk = int.Parse(label22.Text);
+                            try
+                            {
+                                atkevs = int.Parse(textBox4.Text);
+                            }
+                            catch (FormatException)
+                            {
+                            }
+
+                            if (comboBox8.SelectedItem != null)
+                            {
+                                if (matcherNatures[comboBox8.SelectedItem.ToString()].raises.Equals("Special Attack"))
+                                {
+                                    atkab = "+";
+                                }
+                                if (matcherNatures[comboBox8.SelectedItem.ToString()].lowers.Equals("Special Attack"))
+                                {
+                                    atkab = "-";
+                                }
+                            }
+                            if (a.name.Equals("Psyshock") || a.name.Equals("Psystrike"))
+                            {
                                 def = int.Parse(label28.Text);
+                                try
+                                {
+                                    defevs = int.Parse(textBox10.Text);
+                                }
+                                catch (FormatException)
+                                {
+                                }
+                                if (comboBox9.SelectedItem != null)
+                                {
+                                    if (matcherNatures[comboBox9.SelectedItem.ToString()].raises.Equals("Defense"))
+                                    {
+                                        defab = "+";
+                                    }
+                                    if (matcherNatures[comboBox9.SelectedItem.ToString()].lowers.Equals("Defense"))
+                                    {
+                                        defab = "-";
+                                    }
+                                }
                             }
                             else
                             {
-                                atk = int.Parse(label22.Text);
                                 def = int.Parse(label26.Text);
-                            }
-                            try
-                            {
-                                int level = int.Parse(textBox13.Text);
-                                int calc = (2 * level) / 5;
-                                if (calc == 0)
+                                try
                                 {
-                                    calc = 1;
+                                    defevs = int.Parse(textBox8.Text);
                                 }
-                                calc = calc + 2;
-                                int atkbase = a.strength;
-                                calc = calc * atkbase;
-                                calc = (int)(calc * atk * atkmod);
-                                calc = calc / 50;
-                                if (calc == 0)
+                                catch (FormatException)
                                 {
-                                    calc = 1;
                                 }
-                                calc = (int)(calc / (def * defmod));
-                                if (calc == 0)
+                                if (comboBox9.SelectedItem != null)
                                 {
-                                    calc = 1;
-                                }
-
-                                calc = (int)(calc * mod1);
-                                if (calc == 0)
-                                {
-                                    calc = 1;
-                                }
-                                calc = calc + 2;
-                                if (checkBox1.Checked)
-                                {
-                                    try
+                                    if (matcherNatures[comboBox9.SelectedItem.ToString()].raises.Equals("Special Defense"))
                                     {
-                                        if (comboBox6.SelectedItem.ToString().Equals("Sniper"))
-                                        {
-                                            calc = (int)(calc * 2.25);
-                                        }
-                                        else
-                                        {
-                                            calc = (int)(calc * 1.5);
-                                        }
+                                        defab = "+";
                                     }
-                                    catch (NullReferenceException)
+                                    if (matcherNatures[comboBox9.SelectedItem.ToString()].lowers.Equals("Special Defense"))
+                                    {
+                                        defab = "-";
+                                    }
+                                }
+                            }
+                        }
+                        try
+                        {
+                            hpevs = int.Parse(textBox12.Text);
+                        }
+                        catch (FormatException)
+                        {
+                        }
+
+                        try
+                        {
+                            int level = int.Parse(textBox13.Text);
+                            int calc = (2 * level) / 5;
+                            if (calc == 0)
+                            {
+                                calc = 1;
+                            }
+                            calc = calc + 2;
+                            int atkbase = a.strength;
+                            calc = calc * atkbase;
+                            calc = (int)(calc * atk * atkmod);
+                            calc = calc / 50;
+                            if (calc == 0)
+                            {
+                                calc = 1;
+                            }
+                            calc = (int)(calc / (def * defmod));
+                            if (calc == 0)
+                            {
+                                calc = 1;
+                            }
+
+                            calc = (int)(calc * mod1);
+                            if (calc == 0)
+                            {
+                                calc = 1;
+                            }
+                            calc = calc + 2;
+                            if (checkBox1.Checked)
+                            {
+                                try
+                                {
+                                    if (comboBox6.SelectedItem.ToString().Equals("Sniper"))
+                                    {
+                                        calc = (int)(calc * 2.25);
+                                    }
+                                    else
                                     {
                                         calc = (int)(calc * 1.5);
                                     }
                                 }
+                                catch (NullReferenceException)
+                                {
+                                    calc = (int)(calc * 1.5);
+                                }
+                            }
 
-                                calc = (int)(calc * mod2);
-                                int mincalc = calc * 85;
-                                int maxcalc = calc * 100;
-                                mincalc = mincalc / 100;
-                                maxcalc = maxcalc / 100;
-                                if (mincalc == 0)
+                            calc = (int)(calc * mod2);
+                            int mincalc = calc * 85;
+                            int maxcalc = calc * 100;
+                            mincalc = mincalc / 100;
+                            maxcalc = maxcalc / 100;
+                            if (mincalc == 0)
+                            {
+                                mincalc = 1;
+                            }
+                            if (maxcalc == 0)
+                            {
+                                maxcalc = 1;
+                            }
+                            if (comboBox13.SelectedItem.ToString().Equals(label34.Text) || comboBox13.SelectedItem.ToString().Equals(label33.Text) || (comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Protean")))  //Stab
+                            {
+                                try
                                 {
-                                    mincalc = 1;
-                                }
-                                if (maxcalc == 0)
-                                {
-                                    maxcalc = 1;
-                                }
-                                if (comboBox13.SelectedItem.ToString().Equals(label34.Text) || comboBox13.SelectedItem.ToString().Equals(label33.Text)||(comboBox6.SelectedItem!=null && comboBox6.SelectedItem.ToString().Equals("Protean")))  //Stab
-                                {
-                                    try
+                                    if (comboBox6.SelectedItem.ToString().Equals("Adaptibility"))
                                     {
-                                        if (comboBox6.SelectedItem.ToString().Equals("Adaptibility"))
-                                        {
-                                            mincalc = (int)(mincalc * 2);
-                                            maxcalc = (int)(maxcalc * 2);
-                                        }
-                                        else
-                                        {
-                                            mincalc = (int)(mincalc * 1.5);
-                                            maxcalc = (int)(maxcalc * 1.5);
-                                        }
+                                        mincalc = (int)(mincalc * 2);
+                                        maxcalc = (int)(maxcalc * 2);
                                     }
-                                    catch (NullReferenceException)
+                                    else
                                     {
                                         mincalc = (int)(mincalc * 1.5);
                                         maxcalc = (int)(maxcalc * 1.5);
                                     }
-
                                 }
-                                double e = 1;
-                                if (comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Scrappy"))
+                                catch (NullReferenceException)
                                 {
-                                    if (a.type.Equals("normal") || a.type.Equals("fighting"))
-                                    {
-                                        if (a.name.Equals("Flying Press"))
-                                        {
-                                            if (!label35.Text.Equals("ghost"))
-                                            {
-                                                mincalc = (int)(mincalc * checkopponenttype1());
-                                                maxcalc = (int)(maxcalc * checkopponenttype1());
-                                            }
-                                            if (!label36.Text.Equals("ghost"))
-                                            {
-                                                mincalc = (int)(mincalc * checkopponenttype2());
-                                                maxcalc = (int)(maxcalc * checkopponenttype2());
-                                            }
-                                            double ty1 = checkopponenttype1("flying");
-                                            double ty2 = checkopponenttype2("flying");
-                                            mincalc = (int)(mincalc * ty1);
-                                            maxcalc = (int)(maxcalc * ty1);
-                                            mincalc = (int)(mincalc * ty2);
-                                            maxcalc = (int)(maxcalc * ty2);
-                                            if (checkopponenttype1() * checkopponenttype2() * ty1 * ty2 > 1)
-                                            {
-                                                try
-                                                {
-                                                    if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
-                                                    {
-                                                        e = e * 1.2;
-                                                    }
-                                                }
-                                                catch (NullReferenceException)
-                                                {
-
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (!label35.Text.Equals("ghost"))
-                                            {
-                                                mincalc = (int)(mincalc * checkopponenttype1());
-                                                maxcalc = (int)(maxcalc * checkopponenttype1());
-                                            }
-                                            if (!label36.Text.Equals("ghost"))
-                                            {
-                                                mincalc = (int)(mincalc * checkopponenttype2());
-                                                maxcalc = (int)(maxcalc * checkopponenttype2());
-                                            }
-                                            if (checkopponenttype1() * checkopponenttype2() > 1)
-                                            {
-                                                try
-                                                {
-                                                    if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
-                                                    {
-                                                        e = e * 1.2;
-                                                    }
-                                                }
-                                                catch (NullReferenceException)
-                                                {
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (a.name.Equals("Freeze-Dry"))
-                                        {
-                                            mincalc = (int)(mincalc * checkopponenttype1f());
-                                            maxcalc = (int)(maxcalc * checkopponenttype1f());
-                                            mincalc = (int)(mincalc * checkopponenttype2f());
-                                            maxcalc = (int)(maxcalc * checkopponenttype2f());
-                                            if (checkopponenttype1f() * checkopponenttype2f() > 1)
-                                            {
-                                                try
-                                                {
-                                                    if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
-                                                    {
-                                                        e = e * 1.2;
-                                                    }
-                                                }
-                                                catch (NullReferenceException)
-                                                {
-
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {                                            
-                                            mincalc = (int)(mincalc * checkopponenttype1());
-                                            maxcalc = (int)(maxcalc * checkopponenttype1());                                           
-                                            mincalc = (int)(mincalc * checkopponenttype2());
-                                            maxcalc = (int)(maxcalc * checkopponenttype2());                                            
-                                            if (checkopponenttype1() * checkopponenttype2() > 1)
-                                            {
-                                                try
-                                                {
-                                                    if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
-                                                    {
-                                                        e = e * 1.2;
-                                                    }
-                                                }
-                                                catch (NullReferenceException)
-                                                {
-
-                                                }
-                                            }
-                                        }
-                                    }                                    
+                                    mincalc = (int)(mincalc * 1.5);
+                                    maxcalc = (int)(maxcalc * 1.5);
                                 }
-                                else
+
+                            }
+                            double e = 1;
+                            if (comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Scrappy"))
+                            {
+                                if (a.type.Equals("normal") || a.type.Equals("fighting"))
                                 {
                                     if (a.name.Equals("Flying Press"))
                                     {
-                                        mincalc = (int)(mincalc * checkopponenttype1());
-                                        maxcalc = (int)(maxcalc * checkopponenttype1());
-                                        mincalc = (int)(mincalc * checkopponenttype2());
-                                        maxcalc = (int)(maxcalc * checkopponenttype2());
+                                        if (!label35.Text.Equals("ghost"))
+                                        {
+                                            mincalc = (int)(mincalc * checkopponenttype1());
+                                            maxcalc = (int)(maxcalc * checkopponenttype1());
+                                        }
+                                        if (!label36.Text.Equals("ghost"))
+                                        {
+                                            mincalc = (int)(mincalc * checkopponenttype2());
+                                            maxcalc = (int)(maxcalc * checkopponenttype2());
+                                        }
                                         double ty1 = checkopponenttype1("flying");
                                         double ty2 = checkopponenttype2("flying");
                                         mincalc = (int)(mincalc * ty1);
@@ -1402,7 +1503,37 @@ namespace Pokemon_ToolBox
                                             }
                                         }
                                     }
-                                    else if (a.name.Equals("Freeze-Dry"))
+                                    else
+                                    {
+                                        if (!label35.Text.Equals("ghost"))
+                                        {
+                                            mincalc = (int)(mincalc * checkopponenttype1());
+                                            maxcalc = (int)(maxcalc * checkopponenttype1());
+                                        }
+                                        if (!label36.Text.Equals("ghost"))
+                                        {
+                                            mincalc = (int)(mincalc * checkopponenttype2());
+                                            maxcalc = (int)(maxcalc * checkopponenttype2());
+                                        }
+                                        if (checkopponenttype1() * checkopponenttype2() > 1)
+                                        {
+                                            try
+                                            {
+                                                if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
+                                                {
+                                                    e = e * 1.2;
+                                                }
+                                            }
+                                            catch (NullReferenceException)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (a.name.Equals("Freeze-Dry"))
                                     {
                                         mincalc = (int)(mincalc * checkopponenttype1f());
                                         maxcalc = (int)(maxcalc * checkopponenttype1f());
@@ -1445,30 +1576,119 @@ namespace Pokemon_ToolBox
                                         }
                                     }
                                 }
-                                mincalc = (int)(mincalc * mod3 * e);
-                                maxcalc = (int)(maxcalc * mod3 * e);
-                                int minPercenta = (int)((((double)mincalc) / double.Parse(label30.Text)) * 10000);
-                                int minPercentb = minPercenta % 100;
-                                string minPercentc = (minPercentb / 10) + "" + (minPercentb % 10);
-                                minPercenta = minPercenta / 100;
-                                int maxPercenta = (int)((((double)maxcalc) / double.Parse(label30.Text)) * 10000);
-                                int maxPercentb = maxPercenta % 100;
-                                string maxPercentc = (maxPercentb / 10) + "" + (maxPercentb % 10);
-                                maxPercenta = maxPercenta / 100;
-                                textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s " + a.name + " does MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to "+comboBox3.SelectedItem.ToString();
                             }
-                            catch (FormatException)
+                            else
                             {
+                                if (a.name.Equals("Flying Press"))
+                                {
+                                    mincalc = (int)(mincalc * checkopponenttype1());
+                                    maxcalc = (int)(maxcalc * checkopponenttype1());
+                                    mincalc = (int)(mincalc * checkopponenttype2());
+                                    maxcalc = (int)(maxcalc * checkopponenttype2());
+                                    double ty1 = checkopponenttype1("flying");
+                                    double ty2 = checkopponenttype2("flying");
+                                    mincalc = (int)(mincalc * ty1);
+                                    maxcalc = (int)(maxcalc * ty1);
+                                    mincalc = (int)(mincalc * ty2);
+                                    maxcalc = (int)(maxcalc * ty2);
+                                    if (checkopponenttype1() * checkopponenttype2() * ty1 * ty2 > 1)
+                                    {
+                                        try
+                                        {
+                                            if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
+                                            {
+                                                e = e * 1.2;
+                                            }
+                                        }
+                                        catch (NullReferenceException)
+                                        {
 
+                                        }
+                                    }
+                                }
+                                else if (a.name.Equals("Freeze-Dry"))
+                                {
+                                    mincalc = (int)(mincalc * checkopponenttype1f());
+                                    maxcalc = (int)(maxcalc * checkopponenttype1f());
+                                    mincalc = (int)(mincalc * checkopponenttype2f());
+                                    maxcalc = (int)(maxcalc * checkopponenttype2f());
+                                    if (checkopponenttype1f() * checkopponenttype2f() > 1)
+                                    {
+                                        try
+                                        {
+                                            if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
+                                            {
+                                                e = e * 1.2;
+                                            }
+                                        }
+                                        catch (NullReferenceException)
+                                        {
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    mincalc = (int)(mincalc * checkopponenttype1());
+                                    maxcalc = (int)(maxcalc * checkopponenttype1());
+                                    mincalc = (int)(mincalc * checkopponenttype2());
+                                    maxcalc = (int)(maxcalc * checkopponenttype2());
+                                    if (checkopponenttype1() * checkopponenttype2() > 1)
+                                    {
+                                        try
+                                        {
+                                            if (comboBox4.SelectedItem.ToString().Equals("Expert Belt"))
+                                            {
+                                                e = e * 1.2;
+                                            }
+                                        }
+                                        catch (NullReferenceException)
+                                        {
+
+                                        }
+                                    }
+                                }
+                            }
+                            mincalc = (int)(mincalc * mod3 * e);
+                            maxcalc = (int)(maxcalc * mod3 * e);
+                            int minPercenta = (int)((((double)mincalc) / double.Parse(label30.Text)) * 10000);
+                            int minPercentb = minPercenta % 100;
+                            string minPercentc = (minPercentb / 10) + "" + (minPercentb % 10);
+                            minPercenta = minPercenta / 100;
+                            int maxPercenta = (int)((((double)maxcalc) / double.Parse(label30.Text)) * 10000);
+                            int maxPercentb = maxPercenta % 100;
+                            string maxPercentc = (maxPercentb / 10) + "" + (maxPercentb % 10);
+                            maxPercenta = maxPercenta / 100;
+
+                            if (comboBox3.SelectedItem != null && comboBox1.SelectedItem != null)
+                            {
+                                textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s (Level " + levela + ") " + a.name + " does with " + atkevs + atkab + " Evs MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to " + hpevs + "/" + defevs + defab + " Ev " + comboBox3.SelectedItem.ToString() + " (Level " + levelb + ")";
+                            }
+                            else if (comboBox3.SelectedItem != null)
+                            {
+                                textBox33.Text = "Damagecalc: Bulbasaur's (Level " + levela + ") " + a.name + " does with " + atkevs + atkab + " Evs MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to " + hpevs + "/" + defevs + defab + " Ev " + comboBox3.SelectedItem.ToString() + " (Level " + levelb + ")";
+                            }
+                            else if (comboBox1.SelectedItem != null)
+                            {
+                                textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s (Level " + levela + ") " + a.name + " does with " + atkevs + atkab + " Evs MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to " + hpevs + "/" + defevs + defab + " Ev Bulbasaur (Level " + levelb + ")";
+                            }
+                            else
+                            {
+                                textBox33.Text = "Damagecalc: Bulbasaur's (Level "+ levela + ") " + a.name + " does with "+atkevs+atkab+" Evs MinDamage: " + mincalc + " MinPercent: " + minPercenta + "." + minPercentc + "% MaxDamage: " + maxcalc + " MaxPercent: " + maxPercenta + "." + maxPercentc + "% to "+hpevs+"/"+defevs+defab+" Ev Bulbasaur (Level "+ levelb + ")";
                             }
                         }
-                        else
+                        catch (FormatException)
                         {
 
-                            textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s " + a.name + " does MinDamage: " + 0 + " MinPercent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxPercent: " + 0 + "." + 0 + "%";
-            
                         }
-                
+                    }
+                    else
+                    {
+
+                        textBox33.Text = "Damagecalc: " + comboBox1.SelectedItem.ToString() + "'s (Level " + levela + ") " + a.name + " does with " + atkevs + atkab + " Evs MinDamage: " + 0 + " MinPercent: " + 0 + "." + 0 + "% MaxDamage: " + 0 + " MaxPercent: " + 0 + "." + 0 + "%";
+
+                    }
+
                 }
             }
             else
@@ -1555,14 +1775,14 @@ namespace Pokemon_ToolBox
                 }
             }
             else if (a.name.Equals("Electro Ball"))
-            {                
+            {
                 double d = double.Parse(label25.Text) / double.Parse(label24.Text);
                 int dam = 0;
                 if (d <= (1 / (double)4))
                 {
                     dam = 150;
                 }
-                else if (1 / (double)4 < d && d <= 1 / (double)3) 
+                else if (1 / (double)4 < d && d <= 1 / (double)3)
                 {
                     dam = 120;
                 }
@@ -1590,11 +1810,11 @@ namespace Pokemon_ToolBox
                 }
                 if (comboBox10.SelectedItem == null || comboBox10.SelectedItem.ToString().Equals("Normal"))
                 {
-                    w = w/matcherPokemon[comboBox1.SelectedItem.ToString()].weight;
+                    w = w / matcherPokemon[comboBox1.SelectedItem.ToString()].weight;
                 }
                 else
                 {
-                    w = w/matcherPokemon[comboBox1.SelectedItem.ToString()].sonderweight[int.Parse(comboBox10.SelectedItem.ToString().Substring(5)) - 1];
+                    w = w / matcherPokemon[comboBox1.SelectedItem.ToString()].sonderweight[int.Parse(comboBox10.SelectedItem.ToString().Substring(5)) - 1];
                 }
                 if (w > 0.5)
                 {
@@ -1611,7 +1831,7 @@ namespace Pokemon_ToolBox
                 else if (0.25 <= w && w > 0.20)
                 {
                     dmg = 100;
-                }                
+                }
                 else
                 {
                     dmg = 120;
@@ -1717,7 +1937,7 @@ namespace Pokemon_ToolBox
                 catch (FormatException)
                 {
 
-                } 
+                }
                 int V = 0;
                 try
                 {
@@ -1731,7 +1951,7 @@ namespace Pokemon_ToolBox
 
                 }
 
-                dmg = dmg + 20*(I + II + III + IV + V);
+                dmg = dmg + 20 * (I + II + III + IV + V);
 
                 a = new Attacks(a.name, dmg, a.split, a.type);
             }
@@ -1750,7 +1970,7 @@ namespace Pokemon_ToolBox
             {
                 a = new Attacks(a.name, (int)(a.strength * 1.3), a.split, "fairy");
             }
-            else if (comboBox6.SelectedItem != null && (comboBox6.SelectedItem.ToString().Equals("Refrigerate")) && a.type.Equals("normal"))
+            else if (comboBox6.SelectedItem != null && (comboBox6.SelectedItem.ToString().Equals("rigerate")) && a.type.Equals("normal"))
             {
                 a = new Attacks(a.name, (int)(a.strength * 1.3), a.split, "ice");
             }
@@ -1777,7 +1997,7 @@ namespace Pokemon_ToolBox
             }
             else if (comboBox6.SelectedItem != null && comboBox6.SelectedItem.ToString().Equals("Sand Force"))
             {
-                if (comboBox12.SelectedItem!=null && comboBox12.SelectedItem.ToString().Equals("Sand"))
+                if (comboBox12.SelectedItem != null && comboBox12.SelectedItem.ToString().Equals("Sand"))
                 {
                     if (a.type.Equals("rock") || a.type.Equals("steel") || a.type.Equals("ground"))
                     {
@@ -1821,7 +2041,7 @@ namespace Pokemon_ToolBox
             {
                 if (comboBox12.SelectedItem != null && comboBox12.SelectedItem.ToString().Equals("Sun"))
                 {
-                    a = new Attacks(a.name, (int)(a.strength * 1.5), a.split, a.type);                    
+                    a = new Attacks(a.name, (int)(a.strength * 1.5), a.split, a.type);
                 }
             }
             if (comboBox7.SelectedItem != null && comboBox7.SelectedItem.ToString().Equals("Thick Fat"))
@@ -1830,7 +2050,7 @@ namespace Pokemon_ToolBox
                 {
                     a = new Attacks(a.name, (int)(a.strength * 0.5), a.split, a.type);
                 }
-            }            
+            }
             else if (comboBox7.SelectedItem != null && comboBox7.SelectedItem.ToString().Equals("Bulletproof"))
             {
                 if (comboBox13.SelectedItem != null && (comboBox2.SelectedItem.ToString().Equals("Acid Spray") || comboBox2.SelectedItem.ToString().Equals("Aura Sphere") || comboBox2.SelectedItem.ToString().Equals("Barrage") || comboBox2.SelectedItem.ToString().Equals("Bullet Seed") || comboBox2.SelectedItem.ToString().Equals("Egg Bomb") || comboBox2.SelectedItem.ToString().Equals("Electro Ball") || comboBox2.SelectedItem.ToString().Equals("Energy Ball") || comboBox2.SelectedItem.ToString().Equals("Focus Blast") || comboBox2.SelectedItem.ToString().Equals("Gyro Ball") || comboBox2.SelectedItem.ToString().Equals("Ice Ball") || comboBox2.SelectedItem.ToString().Equals("Magnet Bomb") || comboBox2.SelectedItem.ToString().Equals("Mist Ball") || comboBox2.SelectedItem.ToString().Equals("Mud Bomb") || comboBox2.SelectedItem.ToString().Equals("Octazooka") || comboBox2.SelectedItem.ToString().Equals("Rock Wrecker") || comboBox2.SelectedItem.ToString().Equals("Searing Shot") || comboBox2.SelectedItem.ToString().Equals("Seed Bomb") || comboBox2.SelectedItem.ToString().Equals("Shadow Ball") || comboBox2.SelectedItem.ToString().Equals("Sludge Bomb") || comboBox2.SelectedItem.ToString().Equals("Weather Ball") || comboBox2.SelectedItem.ToString().Equals("Zap Cannon")))
@@ -1846,8 +2066,8 @@ namespace Pokemon_ToolBox
         private double checkopponenttype1()
         {
             if (!Typechart[label35.Text].ContainsKey(comboBox13.SelectedItem.ToString()))
-            { 
-            return 1;
+            {
+                return 1;
             }
             else
             {
@@ -1878,7 +2098,7 @@ namespace Pokemon_ToolBox
                 return 1;
             }
             else
-            {                
+            {
                 return Typechart[label35.Text][s];
             }
         }
@@ -1938,7 +2158,7 @@ namespace Pokemon_ToolBox
         private void button3_Click(object sender, EventArgs e)
         {
             init();
-            setup();            
+            setup();
             stats();
             gifchange(0);
             gifchange(1);
@@ -2014,32 +2234,38 @@ namespace Pokemon_ToolBox
             {
                 for (int i = 1; i <= matcherPokemon[s].sonderstats.Count; i++)
                 {
-                    c.Items.Add("Form: "+i);
+                    c.Items.Add("Form: " + i);
                 }
             }
         }
 
         private void comboBox10_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gifchange(0);
-            stats();
+            if (itemtemp)
+            {
+                gifchange(0);
+                stats();
+            }
         }
 
         private void comboBox11_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gifchange(1);
-            stats();
+            if (itemtemp)
+            {
+                gifchange(1);
+                stats();
+            }
         }
         Thread t3;
         private void button4_Click(object sender, EventArgs e)
         {
             t3 = new Thread(dlAttacks);
-            t3.Start();            
+            t3.Start();
         }
 
         private void dlAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -2051,7 +2277,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\physical.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\physical.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2069,7 +2295,7 @@ namespace Pokemon_ToolBox
             sw.WriteLine(physical);
             sw.Close();
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\special.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\special.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2097,7 +2323,7 @@ namespace Pokemon_ToolBox
 
         private void crawlAttacks()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
             if (!d.Exists)
             {
@@ -2105,8 +2331,8 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fp = new FileInfo(System.Environment.CurrentDirectory+"\\physical.log");
-                FileInfo fs = new FileInfo(System.Environment.CurrentDirectory+"\\special.log");
+                FileInfo fp = new FileInfo(System.Environment.CurrentDirectory + "\\physical.log");
+                FileInfo fs = new FileInfo(System.Environment.CurrentDirectory + "\\special.log");
 
                 if (!fp.Exists || !fs.Exists)
                 {
@@ -2114,7 +2340,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\attacks.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -2154,7 +2380,7 @@ namespace Pokemon_ToolBox
                         }
                         if (check.ContainsKey(count))
                         {
-                            if (s.Contains("<a href=\"/attackdex-xy/"))
+                            if (s.Contains("<a h=\"/attackdex-xy/"))
                             {
                                 name = s.Substring(s.IndexOf(">") + 1, s.IndexOf("</") - (s.IndexOf(">") + 1));
                             }
@@ -2209,7 +2435,7 @@ namespace Pokemon_ToolBox
                         }
                         if (check.ContainsKey(count))
                         {
-                            if (s.Contains("<a href=\"/attackdex-xy/"))
+                            if (s.Contains("<a h=\"/attackdex-xy/"))
                             {
                                 name = s.Substring(s.IndexOf(">") + 1, s.IndexOf("</") - (s.IndexOf(">") + 1));
                             }
@@ -2244,72 +2470,72 @@ namespace Pokemon_ToolBox
 
         private void textBox12_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox11_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox10_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox9_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox8_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox14_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox13_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
         bool itemCheck = true;
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -2319,13 +2545,13 @@ namespace Pokemon_ToolBox
             itemDefend();
             modCheck();
             visualAttack();
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
             itemCheck = true;
         }
 
         private void visualAttack()
         {
-            if (comboBox2.SelectedItem != null&&matcherAttacks.ContainsKey(comboBox2.SelectedItem.ToString()))
+            if (comboBox2.SelectedItem != null && matcherAttacks.ContainsKey(comboBox2.SelectedItem.ToString()))
             {
                 if (matcherAttacks[comboBox2.SelectedItem.ToString()].strength == 0)
                 {
@@ -2346,7 +2572,7 @@ namespace Pokemon_ToolBox
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
         Thread t5;
         private void button6_Click(object sender, EventArgs e)
@@ -2357,7 +2583,7 @@ namespace Pokemon_ToolBox
 
         private void getItemsSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -2367,7 +2593,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\items.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\items.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2384,7 +2610,7 @@ namespace Pokemon_ToolBox
             sw = f.AppendText();
             sw.WriteLine(items);
             sw.Close();
-          
+
             MessageBox.Show("Finished!");
         }
         Thread t6;
@@ -2396,60 +2622,60 @@ namespace Pokemon_ToolBox
 
         private void buildDataItems()
         {
-             DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
-             if (!d.Exists)
-             {
-                 MessageBox.Show("First use Retrieve Data Items!");
-             }
-             else
-             {
-                 FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\items.log");
+            if (!d.Exists)
+            {
+                MessageBox.Show("First use Retrieve Data Items!");
+            }
+            else
+            {
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory + "\\items.log");
 
-                 if (!fi.Exists)
-                 {
-                     MessageBox.Show("First use Retrieve Data Items!");
-                 }
-                 else
-                 {
-                     FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
-                     matcherItems = new Dictionary<string, Items>();
-                     if (!f.Exists)
-                     {
-                         FileStream ft = f.Create();
-                         ft.Close();
-                     }
-                     else
-                     {
-                         f.Delete();
-                         FileStream ft = f.Create();
-                         ft.Close();
-                     }
-                     StreamWriter sw = f.AppendText();
-                     StreamReader sr = new StreamReader(fi.OpenRead());
-                     string name = "";
-                     string description = "";
-                     while (!sr.EndOfStream)
-                     {
-                         string s = sr.ReadLine();
-                         if (s.Contains("<td class=\"fooinfo\"><a href=\"/itemdex/"))
-                         {
-                             if (!name.Equals(""))
-                             {
-                                 sw.WriteLine(name+"~"+description);                                 
-                             }
-                             name = s.Substring(s.IndexOf(".shtml")+8,s.IndexOf("</")-(s.IndexOf(".shtml")+8));
-                         }
-                         else if (s.Contains("<td class=\"fooinfo\">"))
-                         {
-                             description = s.Substring(s.IndexOf("<td class=\"fooinfo\">")+20,s.IndexOf("</")-(s.IndexOf("<td class=\"fooinfo\">")+20));
-                         }
-                     }
-                     MessageBox.Show("Finished!");
-                     sw.Close();
-                     sr.Close();
-                 }
-             }
+                if (!fi.Exists)
+                {
+                    MessageBox.Show("First use Retrieve Data Items!");
+                }
+                else
+                {
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Items.data");
+                    matcherItems = new Dictionary<string, Items>();
+                    if (!f.Exists)
+                    {
+                        FileStream ft = f.Create();
+                        ft.Close();
+                    }
+                    else
+                    {
+                        f.Delete();
+                        FileStream ft = f.Create();
+                        ft.Close();
+                    }
+                    StreamWriter sw = f.AppendText();
+                    StreamReader sr = new StreamReader(fi.OpenRead());
+                    string name = "";
+                    string description = "";
+                    while (!sr.EndOfStream)
+                    {
+                        string s = sr.ReadLine();
+                        if (s.Contains("<td class=\"fooinfo\"><a h=\"/itemdex/"))
+                        {
+                            if (!name.Equals(""))
+                            {
+                                sw.WriteLine(name + "~" + description);
+                            }
+                            name = s.Substring(s.IndexOf(".shtml") + 8, s.IndexOf("</") - (s.IndexOf(".shtml") + 8));
+                        }
+                        else if (s.Contains("<td class=\"fooinfo\">"))
+                        {
+                            description = s.Substring(s.IndexOf("<td class=\"fooinfo\">") + 20, s.IndexOf("</") - (s.IndexOf("<td class=\"fooinfo\">") + 20));
+                        }
+                    }
+                    MessageBox.Show("Finished!");
+                    sw.Close();
+                    sr.Close();
+                }
+            }
         }
         bool itemtempa = true;
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -2581,7 +2807,7 @@ namespace Pokemon_ToolBox
                     {
                         comboBox5.SelectedItem = "Damage Berry";
                         mod3 = mod3 * 0.5;
-                    }                    
+                    }
                     else
                     {
 
@@ -2662,7 +2888,7 @@ namespace Pokemon_ToolBox
 
         private void getNaturesSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -2672,7 +2898,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\natures.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\natures.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -2703,7 +2929,7 @@ namespace Pokemon_ToolBox
 
         private void buildDataNatures()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
             if (!d.Exists)
             {
@@ -2711,7 +2937,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\natures.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory + "\\natures.log");
 
                 if (!fi.Exists)
                 {
@@ -2719,7 +2945,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Natures.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -2763,9 +2989,9 @@ namespace Pokemon_ToolBox
                             {
                                 sw.WriteLine(name.Trim() + "~" + raises.Trim() + "~" + lowers.Trim());
                             }
-                            while (s.Contains("\t")&&s.IndexOf("\t")==0)
+                            while (s.Contains("\t") && s.IndexOf("\t") == 0)
                             {
-                                s=s.Substring(2);
+                                s = s.Substring(2);
                             }
                             if (s.Contains("\t"))
                             {
@@ -2776,7 +3002,7 @@ namespace Pokemon_ToolBox
                                 name = s;
                             }
                             countdata = 1;
-                        } 
+                        }
                         else if (countdata == 1 && pos.ContainsKey(count))
                         {
                             while (s.Contains("\t") && s.IndexOf("\t") == 0)
@@ -2792,7 +3018,7 @@ namespace Pokemon_ToolBox
                                 raises = s;
                             }
                             countdata = 2;
-                        }  
+                        }
                         else if (countdata == 2 && pos.ContainsKey(count))
                         {
                             while (s.Contains("\t") && s.IndexOf("\t") == 0)
@@ -2805,7 +3031,7 @@ namespace Pokemon_ToolBox
                             }
                             else
                             {
-                                lowers = s;                                    
+                                lowers = s;
                             }
                             countdata = 0;
                         }
@@ -2824,24 +3050,27 @@ namespace Pokemon_ToolBox
 
         private void clean()
         {
-             DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
-             if (d.Exists)
-             {
-                 foreach (FileInfo f in d.GetFiles())
-                 {
-                     if (f.ToString().Contains(".log"))
-                     {                         
-                         f.Delete();
-                     }
-                 }
-             }
-             MessageBox.Show("Finished!");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
+            if (d.Exists)
+            {
+                foreach (FileInfo f in d.GetFiles())
+                {
+                    if (f.ToString().Contains(".log"))
+                    {
+                        f.Delete();
+                    }
+                }
+            }
+            MessageBox.Show("Finished!");
         }
 
         private void comboBox8_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Wesen1();
-            stats();
+            if (stopE)
+            {
+                Wesen1();
+                stats();
+            }
         }
 
         private void Wesen1()
@@ -2908,8 +3137,11 @@ namespace Pokemon_ToolBox
 
         private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Wesen2();            
-            stats();
+            if (stopE)
+            {
+                Wesen2();
+                stats();
+            }
         }
 
         private void Wesen2()
@@ -2980,19 +3212,19 @@ namespace Pokemon_ToolBox
             {
                 FileInfo ftest;
                 FileInfo f;
-                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
                 bool b = false;
                 if (!d.Exists)
                 {
                     d.Create();
                     b = true;
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Completed.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\Completed.data");
                 if (ftest.Exists)
                 {
                     ftest.Delete();
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Pokemon.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
                 OpenFileDialog dlgFileOpen = new OpenFileDialog();
                 if (!ftest.Exists)
                 {
@@ -3001,9 +3233,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Pokemon Data|Pokemon.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo(System.Environment.CurrentDirectory+"\\Pokemon.data");
+                    f.CopyTo(System.Environment.CurrentDirectory + "\\Pokemon.data");
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Items.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\Items.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3012,9 +3244,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Items Data|Items.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo(System.Environment.CurrentDirectory+"\\Items.data");
+                    f.CopyTo(System.Environment.CurrentDirectory + "\\Items.data");
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\attacks.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\attacks.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3023,9 +3255,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Attacks Data|attacks.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo(System.Environment.CurrentDirectory+"\\attacks.data");
+                    f.CopyTo(System.Environment.CurrentDirectory + "\\attacks.data");
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Natures.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\Natures.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3034,9 +3266,9 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Natures Data|Natures.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo(System.Environment.CurrentDirectory+"\\Natures.data");
+                    f.CopyTo(System.Environment.CurrentDirectory + "\\Natures.data");
                 }
-                ftest = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
+                ftest = new FileInfo(System.Environment.CurrentDirectory + "\\Abilities.data");
                 if (!ftest.Exists)
                 {
                     b = true;
@@ -3045,11 +3277,11 @@ namespace Pokemon_ToolBox
                     dlgFileOpen.Filter = "Abilities Data|Abilities.data";
                     dlgFileOpen.ShowDialog();
                     f = new FileInfo(dlgFileOpen.FileName);
-                    f.CopyTo(System.Environment.CurrentDirectory+"\\Abilities.data");
+                    f.CopyTo(System.Environment.CurrentDirectory + "\\Abilities.data");
                 }
                 try
                 {
-                    d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
+                    d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs");
                     if (!d.Exists)
                     {
                         d.Create();
@@ -3060,7 +3292,7 @@ namespace Pokemon_ToolBox
                         d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                         foreach (FileInfo ft in d.GetFiles())
                         {
-                            ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
+                            ft.CopyTo(System.Environment.CurrentDirectory + "\\gifs\\" + ft.Name);
                         }
                     }
                 }
@@ -3077,7 +3309,7 @@ namespace Pokemon_ToolBox
                     {
 
                     }
-                    
+
                 }
                 if (b)
                 {
@@ -3096,7 +3328,7 @@ namespace Pokemon_ToolBox
             }
             catch (ArgumentException)
             {
-                
+
             }
         }
 
@@ -3124,6 +3356,7 @@ namespace Pokemon_ToolBox
                     button15.Visible = true;
                     button16.Visible = true;
                     button17.Visible = true;
+                    textBox33.Visible = false;
                     pictureBox1.Visible = false;
                     pictureBox2.Visible = false;
                 }
@@ -3147,6 +3380,7 @@ namespace Pokemon_ToolBox
                     button15.Visible = false;
                     button16.Visible = false;
                     button17.Visible = false;
+                    textBox33.Visible = true;
                     pictureBox1.Visible = true;
                     pictureBox2.Visible = true;
                 }
@@ -3162,8 +3396,8 @@ namespace Pokemon_ToolBox
             itemChoice();
             itemDefend();
             modCheck();
-            Wesen1(); 
-            Wesen2(); 
+            Wesen1();
+            Wesen2();
             stats();
         }
 
@@ -3223,7 +3457,8 @@ namespace Pokemon_ToolBox
             }
             try
             {
-                switch(comboBox12.SelectedItem.ToString()){
+                switch (comboBox12.SelectedItem.ToString())
+                {
                     case "Sun":
                         if (comboBox13.SelectedItem.Equals("water"))
                         {
@@ -3286,7 +3521,8 @@ namespace Pokemon_ToolBox
                 switch (comboBox7.SelectedItem.ToString())
                 {
                     case "Heat Proof":
-                        if(comboBox13.SelectedItem!=null&&comboBox13.SelectedItem.ToString().Equals("fire")){
+                        if (comboBox13.SelectedItem != null && comboBox13.SelectedItem.ToString().Equals("fire"))
+                        {
                             mod3 = mod3 * 0.5;
                         }
                         break;
@@ -3396,7 +3632,7 @@ namespace Pokemon_ToolBox
 
         private void getAbilitiesSerebii()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -3406,7 +3642,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\abilities.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3425,9 +3661,9 @@ namespace Pokemon_ToolBox
             sw.Close();
 
             items = wClientp.DownloadString("http://www.serebii.net/blackwhite/ability.shtml");
-            
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities1.log");
+
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\abilities1.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3448,7 +3684,7 @@ namespace Pokemon_ToolBox
             items = wClientp.DownloadString("http://www.serebii.net/xy/abilities.shtml");
 
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\abilities2.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\abilities2.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3479,7 +3715,7 @@ namespace Pokemon_ToolBox
 
         private void buildDataAbilities()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
             if (!d.Exists)
             {
@@ -3487,7 +3723,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory + "\\abilities.log");
 
                 if (!fi.Exists)
                 {
@@ -3495,7 +3731,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory+"\\Abilities.data");
+                    FileInfo f = new FileInfo(System.Environment.CurrentDirectory + "\\Abilities.data");
                     if (!f.Exists)
                     {
                         FileStream ft = f.Create();
@@ -3512,32 +3748,36 @@ namespace Pokemon_ToolBox
                     while (!sr.EndOfStream)
                     {
                         string s = sr.ReadLine();
-                        if(s.Contains("<td colspan=\"2\"><a name=\"")){
-                            if(s.Contains("</b>")){
-                                sw.WriteLine(s.Substring(s.IndexOf("<b>")+3,s.IndexOf("</b>")-(s.IndexOf("<b>")+3)));
-                            } else {
-                                sw.WriteLine(s.Substring(s.IndexOf("<b>")+3,s.IndexOf("</a>")-(s.IndexOf("<b>")+3)));
-                            }   
+                        if (s.Contains("<td colspan=\"2\"><a name=\""))
+                        {
+                            if (s.Contains("</b>"))
+                            {
+                                sw.WriteLine(s.Substring(s.IndexOf("<b>") + 3, s.IndexOf("</b>") - (s.IndexOf("<b>") + 3)));
+                            }
+                            else
+                            {
+                                sw.WriteLine(s.Substring(s.IndexOf("<b>") + 3, s.IndexOf("</a>") - (s.IndexOf("<b>") + 3)));
+                            }
                         }
                     }
                     sr.Close();
-                    fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities1.log");
+                    fi = new FileInfo(System.Environment.CurrentDirectory + "\\abilities1.log");
                     sr = new StreamReader(fi.OpenRead());
                     while (!sr.EndOfStream)
                     {
                         string s = sr.ReadLine();
-                        if (s.Contains("<td colspan=\"5\" class=\"fooleft\"><font size=\"3\"><a href=\"/abilitydex/"))
+                        if (s.Contains("<td colspan=\"5\" class=\"fooleft\"><font size=\"3\"><a h=\"/abilitydex/"))
                         {
                             sw.WriteLine(s.Substring(s.IndexOf("<b>") + 3, s.IndexOf("</b>") - (s.IndexOf("<b>") + 3)));
                         }
                     }
                     sr.Close();
-                    fi = new FileInfo(System.Environment.CurrentDirectory+"\\abilities2.log");
+                    fi = new FileInfo(System.Environment.CurrentDirectory + "\\abilities2.log");
                     sr = new StreamReader(fi.OpenRead());
                     while (!sr.EndOfStream)
                     {
                         string s = sr.ReadLine();
-                        if (s.Contains("<a href=\"/abilitydex/"))
+                        if (s.Contains("<a h=\"/abilitydex/"))
                         {
                             sw.WriteLine(s.Substring(s.IndexOf(">") + 1, s.IndexOf("</a>") - (s.IndexOf(">") + 1)));
                         }
@@ -3554,8 +3794,8 @@ namespace Pokemon_ToolBox
             itemChoice();
             itemDefend();
             modCheck();
-            Wesen1(); 
-            Wesen2(); 
+            Wesen1();
+            Wesen2();
             stats();
         }
 
@@ -3564,8 +3804,8 @@ namespace Pokemon_ToolBox
             itemChoice();
             itemDefend();
             modCheck();
-            Wesen1(); 
-            Wesen2(); 
+            Wesen1();
+            Wesen2();
             stats();
         }
 
@@ -3582,7 +3822,7 @@ namespace Pokemon_ToolBox
             itemChoice();
             itemDefend();
             modCheck();
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
@@ -3590,7 +3830,7 @@ namespace Pokemon_ToolBox
             itemChoice();
             itemDefend();
             modCheck();
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
@@ -3602,62 +3842,62 @@ namespace Pokemon_ToolBox
 
         private void textBox33_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox34_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox35_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox36_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox37_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox38_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox27_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox28_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox29_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox30_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox31_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         private void textBox32_TextChanged(object sender, EventArgs e)
         {
-            Wesen1(); Wesen2(); stats();
+            if(stopE){ Wesen1(); Wesen2(); stats(); }
         }
 
         Thread t11;
@@ -3670,7 +3910,7 @@ namespace Pokemon_ToolBox
 
         private void getParentSitegif()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
             if (!d.Exists)
             {
                 d.Create();
@@ -3680,7 +3920,7 @@ namespace Pokemon_ToolBox
             FileInfo f;
             StreamWriter sw;
 
-            f = new FileInfo(System.Environment.CurrentDirectory+"\\gifparent.log");
+            f = new FileInfo(System.Environment.CurrentDirectory + "\\gifparent.log");
             if (!f.Exists)
             {
                 FileStream fs = f.Create();
@@ -3711,7 +3951,7 @@ namespace Pokemon_ToolBox
 
         private void downloadgif()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
 
             if (!d.Exists)
             {
@@ -3719,7 +3959,7 @@ namespace Pokemon_ToolBox
             }
             else
             {
-                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory+"\\gifparent.log");
+                FileInfo fi = new FileInfo(System.Environment.CurrentDirectory + "\\gifparent.log");
 
                 if (!fi.Exists)
                 {
@@ -3727,7 +3967,7 @@ namespace Pokemon_ToolBox
                 }
                 else
                 {
-                    d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
+                    d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs");
                     if (!d.Exists)
                     {
                         d.Create();
@@ -3738,11 +3978,11 @@ namespace Pokemon_ToolBox
                     while (!sr.EndOfStream)
                     {
                         string s = sr.ReadLine();
-                        if (s.Contains("<tr><td valign=\"top\"><img src=\"/icons/image2.gif\" alt=\"[IMG]\"></td><td><a href=\""))
+                        if (s.Contains("<tr><td valign=\"top\"><img src=\"/icons/image2.gif\" alt=\"[IMG]\"></td><td><a h=\""))
                         {
-                            string temp = s.Substring(s.IndexOf("<a href=\"") + 9, s.IndexOf(".gif\">") + 4 - (s.IndexOf("<a href=\"") + 9));
+                            string temp = s.Substring(s.IndexOf("<a h=\"") + 9, s.IndexOf(".gif\">") + 4 - (s.IndexOf("<a h=\"") + 9));
                             WebClient wClientp = new WebClient();
-                            wClientp.DownloadFile("http://play.pokemonshowdown.com/sprites/xyani/" + temp, System.Environment.CurrentDirectory+"\\gifs\\" + temp);
+                            wClientp.DownloadFile("http://play.pokemonshowdown.com/sprites/xyani/" + temp, System.Environment.CurrentDirectory + "\\gifs\\" + temp);
 
                         }
                     }
@@ -3754,7 +3994,7 @@ namespace Pokemon_ToolBox
 
         private void gifchange(int c)
         {
-            if (Directory.Exists(System.Environment.CurrentDirectory+"\\gifs"))
+            if (Directory.Exists(System.Environment.CurrentDirectory + "\\gifs"))
             {
                 string s;
                 switch (c)
@@ -3765,32 +4005,32 @@ namespace Pokemon_ToolBox
                             comboBox1.SelectedItem = "Bulbasaur";
                         }
                         s = comboBox1.SelectedItem.ToString();
-                        s=s.ToLower();
-                        s=s.Replace("♀", "f");
-                        s=s.Replace("♂", "m");
+                        s = s.ToLower();
+                        s = s.Replace("♀", "f");
+                        s = s.Replace("♂", "m");
                         s = s.Replace("é", "e");
-                        if (comboBox10.SelectedItem==null||comboBox10.SelectedItem.ToString().Equals("Normal"))
+                        if (comboBox10.SelectedItem == null || comboBox10.SelectedItem.ToString().Equals("Normal"))
                         {
-                            if (File.Exists(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif"))
+                            if (File.Exists(System.Environment.CurrentDirectory + "\\gifs\\" + s + ".gif"))
                             {
                                 pictureBox1.Visible = true;
-                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory + "\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
                                 {
                                     var ms = new System.IO.MemoryStream();
                                     fs.CopyTo(ms);
                                     ms.Position = 0;                               // <=== here
                                     if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
                                     pictureBox1.Image = Image.FromStream(ms);
-                                }                                        
+                                }
                             }
                         }
                         else
                         {
-                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory+"\\gifs");
+                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory + "\\gifs");
                             int count = 1;
                             foreach (string fi in f)
                             {
-                                if (fi.Contains(s+"-"))
+                                if (fi.Contains(s + "-"))
                                 {
                                     if (count == int.Parse(comboBox10.SelectedItem.ToString().Substring(6)))
                                     {
@@ -3802,7 +4042,7 @@ namespace Pokemon_ToolBox
                                             ms.Position = 0;                               // <=== here
                                             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
                                             pictureBox1.Image = Image.FromStream(ms);
-                                        }         
+                                        }
                                         break;
                                     }
                                     else
@@ -3819,32 +4059,32 @@ namespace Pokemon_ToolBox
                             comboBox3.SelectedItem = "Bulbasaur";
                         }
                         s = comboBox3.SelectedItem.ToString();
-                        s=s.ToLower();
-                        s=s.Replace("♀", "f");
-                        s=s.Replace("♂", "m");
+                        s = s.ToLower();
+                        s = s.Replace("♀", "f");
+                        s = s.Replace("♂", "m");
                         s = s.Replace("é", "e");
-                        if (comboBox11.SelectedItem==null||comboBox11.SelectedItem.ToString().Equals("Normal"))
+                        if (comboBox11.SelectedItem == null || comboBox11.SelectedItem.ToString().Equals("Normal"))
                         {
-                            if (File.Exists(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif"))
+                            if (File.Exists(System.Environment.CurrentDirectory + "\\gifs\\" + s + ".gif"))
                             {
                                 pictureBox2.Visible = true;
-                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory+"\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                                using (var fs = new System.IO.FileStream(System.Environment.CurrentDirectory + "\\gifs\\" + s + ".gif", System.IO.FileMode.Open, System.IO.FileAccess.Read))
                                 {
                                     var ms = new System.IO.MemoryStream();
                                     fs.CopyTo(ms);
                                     ms.Position = 0;                               // <=== here
                                     if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
                                     pictureBox2.Image = Image.FromStream(ms);
-                                }          
+                                }
                             }
                         }
                         else
                         {
-                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory+"\\gifs");
+                            string[] f = Directory.GetFiles(System.Environment.CurrentDirectory + "\\gifs");
                             int count = 1;
                             foreach (string fi in f)
                             {
-                                if (fi.Contains(s+"-"))
+                                if (fi.Contains(s + "-"))
                                 {
                                     if (count == int.Parse(comboBox11.SelectedItem.ToString().Substring(6)))
                                     {
@@ -3856,7 +4096,7 @@ namespace Pokemon_ToolBox
                                             ms.Position = 0;                               // <=== here
                                             if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
                                             pictureBox2.Image = Image.FromStream(ms);
-                                        }          
+                                        }
                                         break;
                                     }
                                     else
@@ -3879,24 +4119,25 @@ namespace Pokemon_ToolBox
             dlgFolderOpen.Description = "Open now the gifs Foler";
             dlgFolderOpen.ShowDialog();
             t13 = new Thread(gifchangetrue);
-            t13.Start();            
+            t13.Start();
         }
 
         private void gifchangetrue()
         {
             try
             {
-                pictureBox1.BeginInvoke((MethodInvoker)delegate{
+                pictureBox1.BeginInvoke((MethodInvoker)delegate
+                {
                     pictureBox1.Image.Dispose();
                 });
                 pictureBox2.BeginInvoke((MethodInvoker)delegate
                 {
                     pictureBox2.Image.Dispose();
                 });
-                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs");
+                DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs");
                 if (d.Exists)
                 {
-                    DirectoryInfo dold = new DirectoryInfo(System.Environment.CurrentDirectory+"\\gifs_old");
+                    DirectoryInfo dold = new DirectoryInfo(System.Environment.CurrentDirectory + "\\gifs_old");
                     if (dold.Exists)
                     {
                         foreach (FileInfo f in dold.GetFiles())
@@ -3908,27 +4149,28 @@ namespace Pokemon_ToolBox
                     {
                         dold.Create();
                     }
-                    foreach(FileInfo f in d.GetFiles()){
-                        f.CopyTo(dold.FullName+"\\"+f.Name);
+                    foreach (FileInfo f in d.GetFiles())
+                    {
+                        f.CopyTo(dold.FullName + "\\" + f.Name);
                         f.Delete();
                     }
-                    
+
                     d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                     foreach (FileInfo ft in d.GetFiles())
                     {
-                        ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
+                        ft.CopyTo(System.Environment.CurrentDirectory + "\\gifs\\" + ft.Name);
                     }
                 }
                 else
                 {
-                    d.Create();                    
+                    d.Create();
                     d = new DirectoryInfo(dlgFolderOpen.SelectedPath);
                     foreach (FileInfo ft in d.GetFiles())
                     {
-                        ft.CopyTo(System.Environment.CurrentDirectory+"\\gifs\\" + ft.Name);
+                        ft.CopyTo(System.Environment.CurrentDirectory + "\\gifs\\" + ft.Name);
                     }
                 }
-                MessageBox.Show("Finished! Press Refresh!");                
+                MessageBox.Show("Finished! Press resh!");
             }
             catch (ArgumentException)
             {
@@ -3942,7 +4184,7 @@ namespace Pokemon_ToolBox
                 itemChoice();
                 itemDefend();
                 modCheck();
-                Wesen1(); Wesen2(); stats();
+                if(stopE){ if(stopE){ Wesen1(); Wesen2(); stats(); } }
             }
         }
 
@@ -3976,8 +4218,8 @@ namespace Pokemon_ToolBox
 
         private void deletepokemonlog()
         {
-            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory+"");
-            if(d.Exists)
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "");
+            if (d.Exists)
             {
                 FileInfo f1 = new FileInfo(System.Environment.CurrentDirectory + "\\Pokemon.data");
                 FileInfo f2 = new FileInfo(System.Environment.CurrentDirectory + "\\attacks.data");
@@ -4021,10 +4263,369 @@ namespace Pokemon_ToolBox
                 deletefolder(d2);
             }
             foreach (FileInfo f in d.GetFiles())
-            {                
+            {
                 f.Delete();
             }
             d.Delete();
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null)
+            {
+                Pokemon p = matcherPokemon[comboBox1.SelectedItem.ToString()];
+                String s = "";
+                s = s + p.dexnbr + "~";
+                s = s + p.height + "~";
+                s = s + p.name + "~";
+                s = s + String.Join(",", p.sonderheight) + "~";
+                s = s + String.Join(",", String.Join(",", p.sonderstats)) + "~";
+                s = s + String.Join(",", p.sondertype1) + "~";
+                s = s + String.Join(",", p.sondertype2) + "~";
+                s = s + String.Join(",", p.sonderweight) + "~";
+                s = s + String.Join(",", p.stats) + "~";
+                s = s + p.type1 + "~";
+                s = s + p.type2 + "~";
+                s = s + p.weight + "~";
+                s = s + textBox26.Text + "~";
+                s = s + textBox25.Text + "~";
+                s = s + textBox24.Text + "~";
+                s = s + textBox23.Text + "~";
+                s = s + textBox22.Text + "~";
+                s = s + textBox21.Text + "~";
+                s = s + textBox1.Text + "~";
+                s = s + textBox2.Text + "~";
+                s = s + textBox3.Text + "~";
+                s = s + textBox4.Text + "~";
+                s = s + textBox5.Text + "~";
+                s = s + textBox6.Text + "~";
+                s = s + textBox34.Text + "~";
+                s = s + textBox35.Text + "~";
+                s = s + textBox36.Text + "~";
+                s = s + textBox37.Text + "~";
+                s = s + textBox38.Text + "~";
+                if (comboBox8.SelectedItem == null)
+                {
+                    s = s + "Hardy" + "~";
+                }
+                else
+                {
+                    s = s + comboBox8.SelectedItem.ToString() + "~";
+                }
+                if (comboBox10.SelectedItem == null)
+                {
+                    s = s + "Normal" + "~";
+                }
+                else
+                {
+                    s = s + comboBox10.SelectedItem.ToString() + "~";
+                }
+                if (comboBox4.SelectedItem == null)
+                {
+                    s = s + "No Item" + "~";
+                }
+                else
+                {
+                    s = s + comboBox4.SelectedItem.ToString() + "~";
+                }
+                s = s + textBox13.Text + "~";
+                if (comboBox6.SelectedItem == null)
+                {
+                    s = s + "Unaware" + "~";
+                }
+                else
+                {
+                    s = s + comboBox6.SelectedItem.ToString() + "~";
+                }
+                SaveFileDialog dlgFileOpen = new SaveFileDialog();               
+                    dlgFileOpen.Title = "Where do you want to save your .pkm File";
+                    dlgFileOpen.Filter = "Pokemon File|*.pkm";
+                    try
+                    {
+                    dlgFileOpen.ShowDialog();
+                    
+                        FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                        if (f.Exists)
+                        {
+                            f.Delete();
+                        }
+                        StreamWriter sw = new StreamWriter(f.OpenWrite());
+                        sw.WriteLine(s);
+                        sw.Close();
+                    }
+                    catch (ArgumentException)
+                    {
+                    }
+                
+            }
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlgFileOpen = new OpenFileDialog();
+            dlgFileOpen.Title = "Where is your .pkm File";
+            dlgFileOpen.Filter = "Pokemon File|*.pkm";
+            try
+            {
+                dlgFileOpen.ShowDialog();
+                FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                StreamReader sr = new StreamReader(f.OpenRead());
+                String s = sr.ReadLine();
+                sr.Close();
+                String[] t = s.Split('~');
+                comboBox1.SelectedItem = t[2];
+                textBox26.Text = t[12];
+                textBox25.Text = t[13];
+                textBox24.Text = t[14];
+                textBox23.Text = t[15];
+                textBox22.Text = t[16];
+                textBox21.Text = t[17];
+                textBox1.Text = t[18];
+                textBox2.Text = t[19];
+                textBox3.Text = t[20];
+                textBox4.Text = t[21];
+                textBox5.Text = t[22];
+                textBox6.Text = t[23];
+                textBox34.Text = t[24];
+                textBox35.Text = t[25];
+                textBox36.Text = t[26];
+                textBox37.Text = t[27];
+                textBox38.Text = t[28];
+                comboBox8.SelectedItem = t[29];
+                comboBox10.SelectedItem = t[30];
+                comboBox4.SelectedItem = t[31];
+                textBox13.Text = t[32];
+                comboBox6.SelectedItem = t[33];
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            if (comboBox3.SelectedItem != null)
+            {
+                Pokemon p = matcherPokemon[comboBox3.SelectedItem.ToString()];
+                String s = "";
+                s = s + p.dexnbr + "~";
+                s = s + p.height + "~";
+                s = s + p.name + "~";
+                s = s + String.Join(",", p.sonderheight) + "~";
+                s = s + String.Join(",", p.sonderstats) + "~";
+                s = s + String.Join(",", p.sondertype1) + "~";
+                s = s + String.Join(",", p.sondertype2) + "~";
+                s = s + String.Join(",", p.sonderweight) + "~";
+                s = s + String.Join(",", p.stats) + "~";
+                s = s + p.type1 + "~";
+                s = s + p.type2 + "~";
+                s = s + p.weight + "~";
+                
+                s = s + textBox20.Text + "~";
+                s = s + textBox19.Text + "~";
+                s = s + textBox18.Text + "~";
+                s = s + textBox17.Text + "~";
+                s = s + textBox16.Text + "~";
+                s = s + textBox15.Text + "~";
+                s = s + textBox12.Text + "~";
+                s = s + textBox11.Text + "~";
+                s = s + textBox10.Text + "~";
+                s = s + textBox9.Text + "~";
+                s = s + textBox8.Text + "~";
+                s = s + textBox7.Text + "~";
+                s = s + textBox28.Text + "~";
+                s = s + textBox29.Text + "~";
+                s = s + textBox30.Text + "~";
+                s = s + textBox31.Text + "~";
+                s = s + textBox32.Text + "~";
+                if (comboBox9.SelectedItem == null)
+                {
+                    s = s + "Hardy" + "~";
+                }
+                else
+                {
+                    s = s + comboBox9.SelectedItem.ToString() + "~";
+                }
+                if (comboBox11.SelectedItem == null)
+                {
+                    s = s + "Normal" + "~";
+                }
+                else
+                {
+                    s = s + comboBox11.SelectedItem.ToString() + "~";
+                }
+                if (comboBox5.SelectedItem == null)
+                {
+                    s = s + "No Item" + "~";
+                }
+                else
+                {
+                    s = s + comboBox5.SelectedItem.ToString() + "~";
+                }
+                s = s + textBox14.Text + "~";
+                if (comboBox7.SelectedItem == null)
+                {
+                    s = s + "Unaware" + "~";
+                }
+                else
+                {
+                    s = s + comboBox7.SelectedItem.ToString() + "~";
+                }
+                SaveFileDialog dlgFileOpen = new SaveFileDialog();
+                dlgFileOpen.Title = "Where do you want to save your .pkm File";
+                dlgFileOpen.Filter = "Pokemon File|*.pkm";
+                try
+                {
+                dlgFileOpen.ShowDialog();
+                
+                    FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                    if (f.Exists)
+                    {
+                        f.Delete();
+                    }
+                    StreamWriter sw = new StreamWriter(f.OpenWrite());
+                    sw.WriteLine(s);
+                    sw.Close();
+                }
+                catch (ArgumentException)
+                {
+                }
+
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlgFileOpen = new OpenFileDialog();
+            dlgFileOpen.Title = "Where is your .pkm File";
+            dlgFileOpen.Filter = "Pokemon File|*.pkm";
+            try
+            {
+                dlgFileOpen.ShowDialog();
+                FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                StreamReader sr = new StreamReader(f.OpenRead());
+                String s = sr.ReadLine();
+                sr.Close();
+                String[] t = s.Split('~');
+                comboBox3.SelectedItem = t[2];
+                textBox12.Text = t[18];
+                textBox11.Text = t[19];
+                textBox10.Text = t[20];
+                textBox9.Text = t[21];
+                textBox8.Text = t[22];
+                textBox7.Text = t[23];
+                textBox20.Text = t[12];
+                textBox19.Text = t[13];
+                textBox18.Text = t[14];
+                textBox17.Text = t[15];
+                textBox16.Text = t[16];
+                textBox15.Text = t[17];
+                textBox28.Text = t[24];
+                textBox29.Text = t[25];
+                textBox30.Text = t[26];
+                textBox31.Text = t[27];
+                textBox32.Text = t[28];
+                comboBox9.SelectedItem = t[29];
+                comboBox11.SelectedItem = t[30];
+                comboBox5.SelectedItem = t[31];
+                textBox14.Text = t[32];
+                comboBox7.SelectedItem = t[33];
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        bool stopE = true;
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            itemCheck = false;
+            itemtemp = false;
+            itemtempa = false;
+            stopE = false;
+            String temp1 = null;
+            if (comboBox10.SelectedItem != null)
+            {
+                temp1 = comboBox10.SelectedItem.ToString();
+            }
+            String temp2 = null;
+            if (comboBox11.SelectedItem != null)
+            {
+                temp2 = comboBox11.SelectedItem.ToString();
+            }
+            SwapC( comboBox1,   comboBox3);
+            SwapC( comboBox9,   comboBox8);
+            SwapC( comboBox10,   comboBox11);
+            SwapC( comboBox4,   comboBox5);
+            SwapC( comboBox6,   comboBox7);
+            SwapT( textBox13,   textBox14);
+            SwapT( textBox26,   textBox20);
+            SwapT( textBox25,   textBox19);
+            SwapT( textBox24,   textBox18);
+            SwapT( textBox23,   textBox17);
+            SwapT( textBox22,   textBox16);
+            SwapT( textBox21,   textBox15);
+            SwapT( textBox1,   textBox12);
+            SwapT( textBox2,   textBox11);
+            SwapT( textBox3,   textBox10);
+            SwapT( textBox4,   textBox9);
+            SwapT( textBox5,   textBox8);
+            SwapT( textBox6,   textBox7);
+            SwapT( textBox34,   textBox28);
+            SwapT( textBox35,   textBox29);
+            SwapT( textBox36,   textBox30);
+            SwapT( textBox37,   textBox31);
+            SwapT( textBox38,   textBox32);
+            extraformset(0);
+            extraformset(1);
+            comboBox10.SelectedItem = temp2;
+            comboBox11.SelectedItem = temp1;
+            itemChoice();
+            itemDefend();
+            modCheck();
+            
+            Wesen1();
+            Wesen2();
+            stats();
+            
+            gifchange(0);
+            gifchange(1);
+            itemCheck = true;
+            itemtemp = true;
+            itemtempa = true;
+            stopE = true;
+        }
+
+
+        static void SwapT(TextBox lhs, TextBox rhs)
+        {
+            String temp;
+            temp = lhs.Text+"";
+            lhs.Text = rhs.Text+"";
+            rhs.Text = temp;
+        }
+
+        static void SwapC(ComboBox lhs, ComboBox rhs)
+        {
+            String temp;
+            if (lhs.SelectedItem == null)
+            {
+                temp = null;
+            }
+            else
+            {
+                temp = lhs.SelectedItem.ToString();
+            }
+            if (rhs.SelectedItem == null)
+            {
+                lhs.SelectedItem = null;
+            }
+            else
+            {
+                lhs.SelectedItem = rhs.SelectedItem.ToString();
+            }
+            rhs.SelectedItem = temp;
         }
 
     }
