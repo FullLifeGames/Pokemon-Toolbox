@@ -16,25 +16,7 @@ namespace Pokemon_ToolBox
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            string[] s = new string[1];
-            Application.Run(new FormControl(s));
-            try
-            {                
-                switch (s[0].ToLower())
-                {
-                    case ("quiz"):
-                        string[] temp = new string[2];
-                        Application.Run(new FormQuizControl(temp));
-                        Application.Run(new Form2(temp));                        
-                        break;
-                    default:
-                        Application.Run(new Form1());
-                        break;
-                }
-            }
-            catch (Exception)
-            {
-            }
+            Application.Run(new Form1());
         }
-    }   
+    }
 }

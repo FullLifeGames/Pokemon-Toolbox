@@ -4,7 +4,7 @@
   <description asmv2:iconFile="favicon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Pokemon ToolBox" version="0.5.1.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Pokemon ToolBox" version="0.5.0.1" language="neutral" processorArchitecture="msil" />
     <commandLine file="Pokemon ToolBox.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,26 +55,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Pokemon ToolBox.exe" size="218112">
-      <assemblyIdentity name="Pokemon ToolBox" version="0.5.1.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Pokemon ToolBox.exe" size="216576">
+      <assemblyIdentity name="Pokemon ToolBox" version="0.5.0.1" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>R400768T3Wf1Of5Zz7EPmCnW/kLym8BBICdywSv6Gag=</dsig:DigestValue>
+        <dsig:DigestValue>toKZJJQ6cZ0OHXNDUQYNZ0ABHgquoq4IEfsIjG4O2CM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="gsw-FR\Pokemon ToolBox.resources.dll" size="8704">
-      <assemblyIdentity name="Pokemon ToolBox.resources" version="0.5.1.0" language="gsw-FR" processorArchitecture="msil" />
+      <assemblyIdentity name="Pokemon ToolBox.resources" version="0.5.0.1" language="gsw-FR" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>K+HmSzBzKVoGPivhVnhmtqoDA9w2tYDfGvfoEYCph0w=</dsig:DigestValue>
+        <dsig:DigestValue>OopzrMHifYABg7na/rqrVq/cnSIzjfRgc/GpKt7VV3I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
