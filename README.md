@@ -7,7 +7,7 @@ How to use it:
 
 - Download all Files from the folder The Tool
 - Start the Pokemon ToolBox.exe
-- Click on the Setup Button and Select the descripted File or Folder
+- If not everything is in the same folder: Click on the Setup Button and Select the descripted File or Folder
 - After that, just have fun :)
 
 How to uninstall it (I hope this won't happen):
