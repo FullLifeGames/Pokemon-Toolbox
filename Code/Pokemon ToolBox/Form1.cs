@@ -20,8 +20,16 @@ namespace Pokemon_ToolBox
 {
     public partial class Form1 : Form
     {
+        String Calcstart = "";
+
         public Form1()
         {
+            InitializeComponent();
+        }
+
+        public Form1(String s)
+        {
+            Calcstart = s;
             InitializeComponent();
         }
 
@@ -377,6 +385,10 @@ namespace Pokemon_ToolBox
                                         extraformset(1);
                                         button11.Visible = false;
                                         itemCheck = true;
+                                        if (!Calcstart.Equals(""))
+                                        {
+                                            importcalc(Calcstart);
+                                        }
                                     }
                                     else if (f6.Exists)
                                     {
@@ -399,6 +411,10 @@ namespace Pokemon_ToolBox
                                         extraformset(1);
                                         button11.Visible = false;
                                         itemCheck = true;
+                                        if (!Calcstart.Equals(""))
+                                        {
+                                            importcalc(Calcstart);
+                                        }
                                     }
                                 }
                             }
@@ -1080,8 +1096,17 @@ namespace Pokemon_ToolBox
                         fp = (int.Parse(textBox7.Text));
                         wert = (int)(((2 * pa.sonderstats[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1][5] + BIv6 + fp / 4) * (level / 100) + 5) * BWesenspe);
                         label25.Text = wert + "";
-                        label35.Text = pa.sondertype1[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
-                        label36.Text = pa.sondertype2[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
+
+                        if (pa.sondertype1.Count > (int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1))
+                        {
+                            label35.Text = pa.sondertype1[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
+                            label36.Text = pa.sondertype2[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
+                        }
+                        else
+                        {
+                            label35.Text = pa.type1;
+                            label36.Text = pa.type2;
+                        }
 
                     }
                     damagecalc();
@@ -3359,6 +3384,8 @@ namespace Pokemon_ToolBox
                     textBox33.Visible = false;
                     pictureBox1.Visible = false;
                     pictureBox2.Visible = false;
+                    button23.Visible = false;
+                    button24.Visible = false;
                 }
                 else
                 {
@@ -3383,6 +3410,8 @@ namespace Pokemon_ToolBox
                     textBox33.Visible = true;
                     pictureBox1.Visible = true;
                     pictureBox2.Visible = true;
+                    button23.Visible = true;
+                    button24.Visible = true;
                 }
             }
             catch (ArgumentException)
@@ -4628,6 +4657,407 @@ namespace Pokemon_ToolBox
             rhs.SelectedItem = temp;
         }
 
+        private void button24_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBox1.SelectedItem != null && comboBox3.SelectedItem != null && comboBox2.SelectedItem != null)
+                {
+                    Pokemon p = matcherPokemon[comboBox1.SelectedItem.ToString()];
+                    String s = "";
+                    s = s + p.dexnbr + "~";
+                    s = s + p.height + "~";
+                    s = s + p.name + "~";
+                    s = s + String.Join(",", p.sonderheight) + "~";
+                    s = s + String.Join(",", String.Join(",", p.sonderstats)) + "~";
+                    s = s + String.Join(",", p.sondertype1) + "~";
+                    s = s + String.Join(",", p.sondertype2) + "~";
+                    s = s + String.Join(",", p.sonderweight) + "~";
+                    s = s + String.Join(",", p.stats) + "~";
+                    s = s + p.type1 + "~";
+                    s = s + p.type2 + "~";
+                    s = s + p.weight + "~";
+                    s = s + textBox26.Text + "~";
+                    s = s + textBox25.Text + "~";
+                    s = s + textBox24.Text + "~";
+                    s = s + textBox23.Text + "~";
+                    s = s + textBox22.Text + "~";
+                    s = s + textBox21.Text + "~";
+                    s = s + textBox1.Text + "~";
+                    s = s + textBox2.Text + "~";
+                    s = s + textBox3.Text + "~";
+                    s = s + textBox4.Text + "~";
+                    s = s + textBox5.Text + "~";
+                    s = s + textBox6.Text + "~";
+                    s = s + textBox34.Text + "~";
+                    s = s + textBox35.Text + "~";
+                    s = s + textBox36.Text + "~";
+                    s = s + textBox37.Text + "~";
+                    s = s + textBox38.Text + "~";
+                    if (comboBox8.SelectedItem == null)
+                    {
+                        s = s + "Hardy" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox8.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox10.SelectedItem == null)
+                    {
+                        s = s + "Normal" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox10.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox4.SelectedItem == null)
+                    {
+                        s = s + "No Item" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox4.SelectedItem.ToString() + "~";
+                    }
+                    s = s + textBox13.Text + "~";
+                    if (comboBox6.SelectedItem == null)
+                    {
+                        s = s + "Unaware" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox6.SelectedItem.ToString() + "~";
+                    }
+                    SaveFileDialog dlgFileOpen = new SaveFileDialog();
+                    dlgFileOpen.Title = "Where do you want to save your .calc File";
+                    dlgFileOpen.Filter = "Calculation File|*.calc";
+                    StreamWriter sw;
+
+                    dlgFileOpen.ShowDialog();
+
+                    FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                    if (f.Exists)
+                    {
+                        f.Delete();
+                    }
+                    sw = new StreamWriter(f.OpenWrite());
+                    sw.WriteLine(s);
+
+                    s = "";
+                    Attacks a = matcherAttacks[comboBox2.SelectedItem.ToString()];
+                    s = s + a.name + "~";
+                    try
+                    {
+                        s = s + int.Parse(textBox27.Text) +"~";
+                    }
+                    catch (FormatException)
+                    {
+                        s = s + a.strength + "~";
+                    }
+                    if (comboBox13.SelectedItem != null)
+                    {
+                        s = s + comboBox13.SelectedItem.ToString() + "~";
+                    }
+                    else
+                    {
+                        s = s + a.type + "~";
+                    }
+                    if (comboBox12.SelectedItem != null)
+                    {
+                        s = s + comboBox12.SelectedItem.ToString() + "~";
+                    }
+                    else
+                    {
+                        s = s + "No Weather" + "~";
+                    }
+                    s = s + checkBox1.Checked + "~";
+                    s = s + checkBox3.Checked + "~";
+                    s = s + checkBox4.Checked + "~";
+                    s = s + checkBox5.Checked + "~";
+                    sw.WriteLine(s);
+
+                    p = matcherPokemon[comboBox3.SelectedItem.ToString()];
+                    s = "";
+                    s = s + p.dexnbr + "~";
+                    s = s + p.height + "~";
+                    s = s + p.name + "~";
+                    s = s + String.Join(",", p.sonderheight) + "~";
+                    s = s + String.Join(",", p.sonderstats) + "~";
+                    s = s + String.Join(",", p.sondertype1) + "~";
+                    s = s + String.Join(",", p.sondertype2) + "~";
+                    s = s + String.Join(",", p.sonderweight) + "~";
+                    s = s + String.Join(",", p.stats) + "~";
+                    s = s + p.type1 + "~";
+                    s = s + p.type2 + "~";
+                    s = s + p.weight + "~";
+
+                    s = s + textBox20.Text + "~";
+                    s = s + textBox19.Text + "~";
+                    s = s + textBox18.Text + "~";
+                    s = s + textBox17.Text + "~";
+                    s = s + textBox16.Text + "~";
+                    s = s + textBox15.Text + "~";
+                    s = s + textBox12.Text + "~";
+                    s = s + textBox11.Text + "~";
+                    s = s + textBox10.Text + "~";
+                    s = s + textBox9.Text + "~";
+                    s = s + textBox8.Text + "~";
+                    s = s + textBox7.Text + "~";
+                    s = s + textBox28.Text + "~";
+                    s = s + textBox29.Text + "~";
+                    s = s + textBox30.Text + "~";
+                    s = s + textBox31.Text + "~";
+                    s = s + textBox32.Text + "~";
+                    if (comboBox9.SelectedItem == null)
+                    {
+                        s = s + "Hardy" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox9.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox11.SelectedItem == null)
+                    {
+                        s = s + "Normal" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox11.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox5.SelectedItem == null)
+                    {
+                        s = s + "No Item" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox5.SelectedItem.ToString() + "~";
+                    }
+                    s = s + textBox14.Text + "~";
+                    if (comboBox7.SelectedItem == null)
+                    {
+                        s = s + "Unaware" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox7.SelectedItem.ToString() + "~";
+                    }
+
+                    sw.WriteLine(s);
+                    sw.Close();
+                }
+
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            importcalc();
+        }
+
+        private void importcalc()
+        {
+            OpenFileDialog dlgFileOpen = new OpenFileDialog();
+            dlgFileOpen.Title = "Where is your .calc File";
+            dlgFileOpen.Filter = "Calculation File|*.calc";
+            try
+            {
+                dlgFileOpen.ShowDialog();
+                FileInfo f = new FileInfo(dlgFileOpen.FileName);
+                StreamReader sr = new StreamReader(f.OpenRead());
+                String s = sr.ReadLine();
+                String[] t = s.Split('~');
+                comboBox1.SelectedItem = t[2];
+                textBox26.Text = t[12];
+                textBox25.Text = t[13];
+                textBox24.Text = t[14];
+                textBox23.Text = t[15];
+                textBox22.Text = t[16];
+                textBox21.Text = t[17];
+                textBox1.Text = t[18];
+                textBox2.Text = t[19];
+                textBox3.Text = t[20];
+                textBox4.Text = t[21];
+                textBox5.Text = t[22];
+                textBox6.Text = t[23];
+                textBox34.Text = t[24];
+                textBox35.Text = t[25];
+                textBox36.Text = t[26];
+                textBox37.Text = t[27];
+                textBox38.Text = t[28];
+                comboBox8.SelectedItem = t[29];
+                comboBox10.SelectedItem = t[30];
+                comboBox4.SelectedItem = t[31];
+                textBox13.Text = t[32];
+                comboBox6.SelectedItem = t[33];
+
+                s = sr.ReadLine();
+                t = s.Split('~');
+                comboBox2.SelectedItem = t[0];
+                textBox27.Text = t[1];
+                comboBox13.SelectedItem = t[2];
+                comboBox12.SelectedItem = t[3];
+                checkBox1.Checked = bool.Parse(t[4]);
+                checkBox3.Checked = bool.Parse(t[5]);
+                checkBox4.Checked = bool.Parse(t[6]);
+                checkBox5.Checked = bool.Parse(t[7]);
+
+                s = sr.ReadLine();
+                t = s.Split('~');
+                comboBox3.SelectedItem = t[2];
+                textBox12.Text = t[18];
+                textBox11.Text = t[19];
+                textBox10.Text = t[20];
+                textBox9.Text = t[21];
+                textBox8.Text = t[22];
+                textBox7.Text = t[23];
+                textBox20.Text = t[12];
+                textBox19.Text = t[13];
+                textBox18.Text = t[14];
+                textBox17.Text = t[15];
+                textBox16.Text = t[16];
+                textBox15.Text = t[17];
+                textBox28.Text = t[24];
+                textBox29.Text = t[25];
+                textBox30.Text = t[26];
+                textBox31.Text = t[27];
+                textBox32.Text = t[28];
+                comboBox9.SelectedItem = t[29];
+                comboBox11.SelectedItem = t[30];
+                comboBox5.SelectedItem = t[31];
+                textBox14.Text = t[32];
+                comboBox7.SelectedItem = t[33];
+                sr.Close();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void importcalc(String st)
+        {
+            
+            try
+            {                
+                FileInfo f = new FileInfo(st);
+                if (f.Exists)
+                {
+                    StreamReader sr = new StreamReader(f.OpenRead());
+                    String s = sr.ReadLine();
+                    String[] t = s.Split('~');
+                    comboBox1.SelectedItem = t[2];
+                    textBox26.Text = t[12];
+                    textBox25.Text = t[13];
+                    textBox24.Text = t[14];
+                    textBox23.Text = t[15];
+                    textBox22.Text = t[16];
+                    textBox21.Text = t[17];
+                    textBox1.Text = t[18];
+                    textBox2.Text = t[19];
+                    textBox3.Text = t[20];
+                    textBox4.Text = t[21];
+                    textBox5.Text = t[22];
+                    textBox6.Text = t[23];
+                    textBox34.Text = t[24];
+                    textBox35.Text = t[25];
+                    textBox36.Text = t[26];
+                    textBox37.Text = t[27];
+                    textBox38.Text = t[28];
+                    comboBox8.SelectedItem = t[29];
+                    comboBox10.SelectedItem = t[30];
+                    comboBox4.SelectedItem = t[31];
+                    textBox13.Text = t[32];
+                    comboBox6.SelectedItem = t[33];
+
+                    s = sr.ReadLine();
+                    t = s.Split('~');
+                    comboBox2.SelectedItem = t[0];
+                    textBox27.Text = t[1];
+                    comboBox13.SelectedItem = t[2];
+                    comboBox12.SelectedItem = t[3];
+                    checkBox1.Checked = bool.Parse(t[4]);
+                    checkBox3.Checked = bool.Parse(t[5]);
+                    checkBox4.Checked = bool.Parse(t[6]);
+                    checkBox5.Checked = bool.Parse(t[7]);
+
+                    s = sr.ReadLine();
+                    t = s.Split('~');
+                    comboBox3.SelectedItem = t[2];
+                    textBox12.Text = t[18];
+                    textBox11.Text = t[19];
+                    textBox10.Text = t[20];
+                    textBox9.Text = t[21];
+                    textBox8.Text = t[22];
+                    textBox7.Text = t[23];
+                    textBox20.Text = t[12];
+                    textBox19.Text = t[13];
+                    textBox18.Text = t[14];
+                    textBox17.Text = t[15];
+                    textBox16.Text = t[16];
+                    textBox15.Text = t[17];
+                    textBox28.Text = t[24];
+                    textBox29.Text = t[25];
+                    textBox30.Text = t[26];
+                    textBox31.Text = t[27];
+                    textBox32.Text = t[28];
+                    comboBox9.SelectedItem = t[29];
+                    comboBox11.SelectedItem = t[30];
+                    comboBox5.SelectedItem = t[31];
+                    textBox14.Text = t[32];
+                    comboBox7.SelectedItem = t[33];
+                    sr.Close();
+                } else {
+                    MessageBox.Show(f.ToString()+" doesn't exist!");
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An Error occured while reading the file. Please make sure the file is not corrupted.");
+            }
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            textBox26.Text = "31";
+            textBox25.Text = "31";
+            textBox24.Text = "31";
+            textBox23.Text = "31";
+            textBox22.Text = "31";
+            textBox21.Text = "31";
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
+            textBox4.Text = "0";
+            textBox5.Text = "0";
+            textBox6.Text = "0";
+            textBox34.Text = "0";
+            textBox35.Text = "0";
+            textBox36.Text = "0";
+            textBox37.Text = "0";
+            textBox38.Text = "0";
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            textBox20.Text = "31";
+            textBox19.Text = "31";
+            textBox18.Text = "31";
+            textBox17.Text = "31";
+            textBox16.Text = "31";
+            textBox15.Text = "31";
+            textBox12.Text = "0";
+            textBox11.Text = "0";
+            textBox10.Text = "0";
+            textBox9.Text = "0";
+            textBox8.Text = "0";
+            textBox7.Text = "0";
+            textBox28.Text = "0";
+            textBox29.Text = "0";
+            textBox30.Text = "0";
+            textBox31.Text = "0";
+            textBox32.Text = "0";
+        }
     }
 
 }

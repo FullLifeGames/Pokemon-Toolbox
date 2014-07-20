@@ -42,3 +42,6 @@ L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\gsw-FR\Pokemon ToolBox.res
 L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.TrustInfo.xml
 L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.exe.manifest
 L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon ToolBox.application
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.Form2.resources
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.FormControl.resources
+L:\Projects\Pokemon ToolBox\Pokemon ToolBox\obj\Debug\Pokemon_ToolBox.FormQuizControl.resources
