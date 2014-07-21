@@ -926,6 +926,13 @@ namespace Pokemon_ToolBox
                                 pa = matcherPokemon["Bulbasaur"];
                             }
                         }
+                        label51.Text = pa.stats[0]+"";
+                        label50.Text = pa.stats[1]+"";
+                        label49.Text = pa.stats[2]+"";
+                        label48.Text = pa.stats[3]+ "";
+                        label47.Text = pa.stats[4]+ "";
+                        label4.Text = pa.stats[5] + "";
+
                         int fp = (int.Parse(textBox1.Text));
                         double level = (double.Parse(textBox13.Text));
                         int wert;
@@ -967,8 +974,18 @@ namespace Pokemon_ToolBox
                         {
                             pa = matcherPokemon[comboBox1.Text];
                         }
+                        
+
+
+
                         string stttt = comboBox10.SelectedItem.ToString().Substring(5);
                         int[] dd = pa.sonderstats[int.Parse(comboBox10.SelectedItem.ToString().Substring(5)) - 1];
+                        label51.Text = dd[0] + "";
+                        label50.Text = dd[1] + "";
+                        label49.Text = dd[2] + "";
+                        label48.Text = dd[3] + "";
+                        label47.Text = dd[4] + "";
+                        label4.Text = dd[5] + "";
                         int fp = (int.Parse(textBox1.Text));
                         double level = (int.Parse(textBox13.Text));
                         int wert;
@@ -1027,6 +1044,17 @@ namespace Pokemon_ToolBox
                                 pa = matcherPokemon["Bulbasaur"];
                             }
                         }
+
+
+                        label57.Text = pa.stats[0] + "";
+                        label56.Text = pa.stats[1] + "";
+                        label55.Text = pa.stats[2] + "";
+                        label54.Text = pa.stats[3] + "";
+                        label53.Text = pa.stats[4] + "";
+                        label52.Text = pa.stats[5] + "";
+
+
+
                         int fp = (int.Parse(textBox12.Text));
                         double level = (double.Parse(textBox14.Text));
 
@@ -1069,6 +1097,15 @@ namespace Pokemon_ToolBox
                         {
                             pa = matcherPokemon[comboBox3.Text];
                         }
+
+                        int[] dd = pa.sonderstats[int.Parse(comboBox11.SelectedItem.ToString().Substring(5)) - 1];
+
+                        label57.Text = dd[0] + "";
+                        label56.Text = dd[1] + "";
+                        label55.Text = dd[2] + "";
+                        label54.Text = dd[3] + "";
+                        label53.Text = dd[4] + "";
+                        label52.Text = dd[5] + "";
                         int fp = (int.Parse(textBox12.Text));
                         double level = (double.Parse(textBox14.Text));
                         int wert;
@@ -3381,6 +3418,12 @@ namespace Pokemon_ToolBox
                     button15.Visible = true;
                     button16.Visible = true;
                     button17.Visible = true;
+                    button18.Visible = false;
+                    button19.Visible = false;
+                    button20.Visible = false;
+                    button21.Visible = false;
+                    button22.Visible = false;
+                    checkBox6.Visible = false;
                     textBox33.Visible = false;
                     pictureBox1.Visible = false;
                     pictureBox2.Visible = false;
@@ -3407,6 +3450,12 @@ namespace Pokemon_ToolBox
                     button15.Visible = false;
                     button16.Visible = false;
                     button17.Visible = false;
+                    button18.Visible = true;
+                    button19.Visible = true;
+                    button20.Visible = true;
+                    button21.Visible = true;
+                    button22.Visible = true;
+                    checkBox6.Visible = true;
                     textBox33.Visible = true;
                     pictureBox1.Visible = true;
                     pictureBox2.Visible = true;
@@ -4210,10 +4259,12 @@ namespace Pokemon_ToolBox
         {
             if (itemCheck)
             {
+                itemCheck = false;
                 itemChoice();
                 itemDefend();
                 modCheck();
-                if(stopE){ if(stopE){ Wesen1(); Wesen2(); stats(); } }
+                if(stopE){  Wesen1(); Wesen2(); stats();  }
+                itemCheck = true;
             }
         }
 
@@ -4659,6 +4710,11 @@ namespace Pokemon_ToolBox
 
         private void button24_Click(object sender, EventArgs e)
         {
+            exportCalc();            
+        }
+
+        private void exportCalc()
+        {
             try
             {
                 if (comboBox1.SelectedItem != null && comboBox3.SelectedItem != null && comboBox2.SelectedItem != null)
@@ -4747,7 +4803,7 @@ namespace Pokemon_ToolBox
                     s = s + a.name + "~";
                     try
                     {
-                        s = s + int.Parse(textBox27.Text) +"~";
+                        s = s + int.Parse(textBox27.Text) + "~";
                     }
                     catch (FormatException)
                     {
@@ -5057,6 +5113,20 @@ namespace Pokemon_ToolBox
             textBox30.Text = "0";
             textBox31.Text = "0";
             textBox32.Text = "0";
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                e.SuppressKeyPress = true;
+                exportCalc();
+            }
+            else if (e.Control && e.KeyCode == Keys.I)
+            {
+                e.SuppressKeyPress = true;
+                importcalc();
+            }
         }
     }
 
