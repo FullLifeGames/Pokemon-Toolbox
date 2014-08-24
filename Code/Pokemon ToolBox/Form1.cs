@@ -3130,7 +3130,11 @@ namespace Pokemon_ToolBox
         {
             if (stopE)
             {
+                itemChoice();
+                itemDefend();
+                modCheck();
                 Wesen1();
+                Wesen2();
                 stats();
             }
         }
@@ -3201,6 +3205,10 @@ namespace Pokemon_ToolBox
         {
             if (stopE)
             {
+                itemChoice();
+                itemDefend();
+                modCheck();
+                Wesen1();
                 Wesen2();
                 stats();
             }
@@ -3418,6 +3426,9 @@ namespace Pokemon_ToolBox
                     button15.Visible = true;
                     button16.Visible = true;
                     button17.Visible = true;
+                    button29.Visible = true;
+                    button28.Visible = true;
+                    button27.Visible = true;
                     button18.Visible = false;
                     button19.Visible = false;
                     button20.Visible = false;
@@ -3450,6 +3461,9 @@ namespace Pokemon_ToolBox
                     button15.Visible = false;
                     button16.Visible = false;
                     button17.Visible = false;
+                    button29.Visible = false;
+                    button28.Visible = false;
+                    button27.Visible = false;
                     button18.Visible = true;
                     button19.Visible = true;
                     button20.Visible = true;
@@ -5117,17 +5131,459 @@ namespace Pokemon_ToolBox
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.S)
+            if (e.Control)
             {
-                e.SuppressKeyPress = true;
-                exportCalc();
+                if (e.KeyCode == Keys.S)
+                {
+                    e.SuppressKeyPress = true;
+                    exportCalc();
+                }
+                else if (e.KeyCode == Keys.I)
+                {
+                    e.SuppressKeyPress = true;
+                    importcalc();
+                }
+            }        
+        }
+
+       
+
+        private void getDatafromShowdown()
+        {
+            DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "/logs");
+            if (!d.Exists)
+            {
+                d.Create();
             }
-            else if (e.Control && e.KeyCode == Keys.I)
+            FileInfo f;
+            StreamWriter sw;
+            WebClient wClient = new WebClient();
+            String s="";
+          
+            foreach (String p in matcherPokemon.Keys)
             {
-                e.SuppressKeyPress = true;
-                importcalc();
+                bool b = true;
+                try{  
+                   s = wClient.DownloadString("http://pokemonshowdown.com/dex/pokemon/"+p);                 
+                }
+                catch (WebException)
+                {
+                    b = false;
+                }
+                if (b)
+                {
+                    f = new FileInfo(System.Environment.CurrentDirectory + "/logs/" + p + ".log");
+                    if (!f.Exists)
+                    {
+                        FileStream fs = f.Create();
+                        fs.Close();
+                    }
+                    else
+                    {
+                        f.Delete();
+                        FileStream fs = f.Create();
+                        fs.Close();
+                    }
+
+                    sw = f.AppendText();
+                    sw.WriteLine(s);
+                    sw.Close();
+                }
+            }
+            MessageBox.Show("Finished!");
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+
+            foreach (String s in matcherPokemon.Keys)
+            {
+                foreach (String s2 in matcherPokemon.Keys)
+                {
+                    DirectoryInfo d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\calcs\\"+s);
+                    if (!d.Exists)
+                    {
+                        d.Create();
+                    }
+                    d = new DirectoryInfo(System.Environment.CurrentDirectory + "\\calcs\\" + s +"\\"+ s2);
+                    if (!d.Exists)
+                    {
+                        d.Create();
+                    }
+                }
+            }
+
+            foreach (String s in matcherPokemon.Keys)
+            {
+                comboBox1.SelectedItem = s;
+                if (comboBox10.Items.Count > 1)
+                {
+                    int c = 0;
+                    foreach (object Item in comboBox10.Items)
+                    {
+                        String s4 = (String)Item;
+                        comboBox10.SelectedItem = s4;
+                        int count = 0;
+                        foreach (String s2 in matcherPokemon.Keys)
+                        {
+                            comboBox3.SelectedItem = s2;
+                            if (comboBox11.Items.Count > 1)
+                            {
+                                foreach (object Item2 in comboBox11.Items)
+                                {
+                                    String s5 = (String)Item2;
+                                    comboBox10.SelectedItem = s5;
+                                    
+                                    foreach (String s3 in matcherAttacks.Keys)
+                                    {
+                                        comboBox2.SelectedItem = s3;
+                                        Attacks a = matcherAttacks[s3];
+                                        textBox2.Text = "0";
+                                        textBox4.Text = "0";
+                                        textBox10.Text = "0";
+                                        textBox12.Text = "0";
+                                        textBox8.Text = "0";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 0 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                        if (a.split == 0)
+                                        {
+                                            textBox2.Text = "252";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                            textBox10.Text = "252";
+                                            textBox12.Text = "252";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                            textBox2.Text = "0";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 0 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                        }
+                                        else
+                                        {
+                                            textBox4.Text = "252";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                            textBox8.Text = "252";
+                                            textBox12.Text = "252";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                            textBox4.Text = "0";
+                                            exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 0 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                        }
+                                    }
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                                foreach (String s3 in matcherAttacks.Keys)
+                                {
+                                    comboBox2.SelectedItem = s3;
+                                    Attacks a = matcherAttacks[s3];
+                                    textBox2.Text = "0";
+                                    textBox4.Text = "0";
+                                    textBox10.Text = "0";
+                                    textBox12.Text = "0";
+                                    textBox8.Text = "0";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 0 " + s3 + " 0_0 " + s2 + ".calc");
+                                    if (a.split == 0)
+                                    {
+                                        textBox2.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 0_0 " + s2 +  ".calc");
+                                        textBox10.Text = "252";
+                                        textBox12.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 252_252 " + s2 +  ".calc");
+                                        textBox2.Text = "0";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 0 " + s3 + " 252_252 " + s2 +  ".calc");
+                                    }
+                                    else
+                                    {
+                                        textBox4.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 0_0 " + s2 +  ".calc");
+                                        textBox8.Text = "252";
+                                        textBox12.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + c + " 252 " + s3 + " 252_252 " + s2 + ".calc");
+                                        textBox4.Text = "0";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s +c+ " 0 " + s3 + " 252_252 " + s2 +  ".calc");
+                                    }
+                                }
+                            }
+                        }
+                        c++;
+                    }
+
+                }
+                else
+                {
+                    foreach (String s2 in matcherPokemon.Keys)
+                    {
+                        int count = 0;
+                        comboBox3.SelectedItem = s2;
+                        if (comboBox11.Items.Count > 1)
+                        {
+                            foreach (object Item2 in comboBox11.Items)
+                            {
+                               
+                                String s5 = (String)Item2;
+                                comboBox10.SelectedItem = s5;
+
+                                foreach (String s3 in matcherAttacks.Keys)
+                                {
+                                    comboBox2.SelectedItem = s3;
+                                    Attacks a = matcherAttacks[s3];
+                                    textBox2.Text = "0";
+                                    textBox4.Text = "0";
+                                    textBox10.Text = "0";
+                                    textBox12.Text = "0";
+                                    textBox8.Text = "0";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                    if (a.split == 0)
+                                    {
+                                        textBox2.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                        textBox10.Text = "252";
+                                        textBox12.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                        textBox2.Text = "0";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                    }
+                                    else
+                                    {
+                                        textBox4.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 0_0 " + s2 + count + ".calc");
+                                        textBox8.Text = "252";
+                                        textBox12.Text = "252";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                        textBox4.Text = "0";
+                                        exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 252_252 " + s2 + count + ".calc");
+                                    }
+                                }
+                                count++;
+                            }
+                        }
+                        else
+                        {
+                            foreach (String s3 in matcherAttacks.Keys)
+                            {
+                                comboBox2.SelectedItem = s3;
+                                Attacks a = matcherAttacks[s3];
+                                textBox2.Text = "0";
+                                textBox4.Text = "0";
+                                textBox10.Text = "0";
+                                textBox12.Text = "0";
+                                textBox8.Text = "0";
+                                exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 0_0 " + s2 + ".calc");
+                                if (a.split == 0)
+                                {
+                                    textBox2.Text = "252";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 0_0 " + s2 + ".calc");
+                                    textBox10.Text = "252";
+                                    textBox12.Text = "252";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 252_252 " + s2 + ".calc");
+                                    textBox2.Text = "0";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 252_252 " + s2 + ".calc");
+                                }
+                                else
+                                {
+                                    textBox4.Text = "252";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 0_0 " + s2 + ".calc");
+                                    textBox8.Text = "252";
+                                    textBox12.Text = "252";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 252 " + s3 + " 252_252 " + s2 + ".calc");
+                                    textBox4.Text = "0";
+                                    exportCalc(System.Environment.CurrentDirectory + "\\calcs\\" + s + "\\" + s2 + "\\" + s + " 0 " + s3 + " 252_252 " + s2 + ".calc");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void exportCalc(String fname)
+        {
+            try
+            {
+                if (comboBox1.SelectedItem != null && comboBox3.SelectedItem != null && comboBox2.SelectedItem != null)
+                {
+                    Pokemon p = matcherPokemon[comboBox1.SelectedItem.ToString()];
+                    String s = "";
+                    s = s + p.dexnbr + "~";
+                    s = s + p.height + "~";
+                    s = s + p.name + "~";
+                    s = s + String.Join(",", p.sonderheight) + "~";
+                    s = s + String.Join(",", String.Join(",", p.sonderstats)) + "~";
+                    s = s + String.Join(",", p.sondertype1) + "~";
+                    s = s + String.Join(",", p.sondertype2) + "~";
+                    s = s + String.Join(",", p.sonderweight) + "~";
+                    s = s + String.Join(",", p.stats) + "~";
+                    s = s + p.type1 + "~";
+                    s = s + p.type2 + "~";
+                    s = s + p.weight + "~";
+                    s = s + textBox26.Text + "~";
+                    s = s + textBox25.Text + "~";
+                    s = s + textBox24.Text + "~";
+                    s = s + textBox23.Text + "~";
+                    s = s + textBox22.Text + "~";
+                    s = s + textBox21.Text + "~";
+                    s = s + textBox1.Text + "~";
+                    s = s + textBox2.Text + "~";
+                    s = s + textBox3.Text + "~";
+                    s = s + textBox4.Text + "~";
+                    s = s + textBox5.Text + "~";
+                    s = s + textBox6.Text + "~";
+                    s = s + textBox34.Text + "~";
+                    s = s + textBox35.Text + "~";
+                    s = s + textBox36.Text + "~";
+                    s = s + textBox37.Text + "~";
+                    s = s + textBox38.Text + "~";
+                    if (comboBox8.SelectedItem == null)
+                    {
+                        s = s + "Hardy" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox8.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox10.SelectedItem == null)
+                    {
+                        s = s + "Normal" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox10.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox4.SelectedItem == null)
+                    {
+                        s = s + "No Item" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox4.SelectedItem.ToString() + "~";
+                    }
+                    s = s + textBox13.Text + "~";
+                    if (comboBox6.SelectedItem == null)
+                    {
+                        s = s + "Unaware" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox6.SelectedItem.ToString() + "~";
+                    }
+                    
+                    StreamWriter sw;
+
+                    FileInfo f = new FileInfo(fname);
+                    if (f.Exists)
+                    {
+                        f.Delete();
+                    }
+                    sw = new StreamWriter(f.OpenWrite());
+                    sw.WriteLine(s);
+
+                    s = "";
+                    Attacks a = matcherAttacks[comboBox2.SelectedItem.ToString()];
+                    s = s + a.name + "~";
+                    try
+                    {
+                        s = s + int.Parse(textBox27.Text) + "~";
+                    }
+                    catch (FormatException)
+                    {
+                        s = s + a.strength + "~";
+                    }
+                    if (comboBox13.SelectedItem != null)
+                    {
+                        s = s + comboBox13.SelectedItem.ToString() + "~";
+                    }
+                    else
+                    {
+                        s = s + a.type + "~";
+                    }
+                    if (comboBox12.SelectedItem != null)
+                    {
+                        s = s + comboBox12.SelectedItem.ToString() + "~";
+                    }
+                    else
+                    {
+                        s = s + "No Weather" + "~";
+                    }
+                    s = s + checkBox1.Checked + "~";
+                    s = s + checkBox3.Checked + "~";
+                    s = s + checkBox4.Checked + "~";
+                    s = s + checkBox5.Checked + "~";
+                    sw.WriteLine(s);
+
+                    p = matcherPokemon[comboBox3.SelectedItem.ToString()];
+                    s = "";
+                    s = s + p.dexnbr + "~";
+                    s = s + p.height + "~";
+                    s = s + p.name + "~";
+                    s = s + String.Join(",", p.sonderheight) + "~";
+                    s = s + String.Join(",", p.sonderstats) + "~";
+                    s = s + String.Join(",", p.sondertype1) + "~";
+                    s = s + String.Join(",", p.sondertype2) + "~";
+                    s = s + String.Join(",", p.sonderweight) + "~";
+                    s = s + String.Join(",", p.stats) + "~";
+                    s = s + p.type1 + "~";
+                    s = s + p.type2 + "~";
+                    s = s + p.weight + "~";
+
+                    s = s + textBox20.Text + "~";
+                    s = s + textBox19.Text + "~";
+                    s = s + textBox18.Text + "~";
+                    s = s + textBox17.Text + "~";
+                    s = s + textBox16.Text + "~";
+                    s = s + textBox15.Text + "~";
+                    s = s + textBox12.Text + "~";
+                    s = s + textBox11.Text + "~";
+                    s = s + textBox10.Text + "~";
+                    s = s + textBox9.Text + "~";
+                    s = s + textBox8.Text + "~";
+                    s = s + textBox7.Text + "~";
+                    s = s + textBox28.Text + "~";
+                    s = s + textBox29.Text + "~";
+                    s = s + textBox30.Text + "~";
+                    s = s + textBox31.Text + "~";
+                    s = s + textBox32.Text + "~";
+                    if (comboBox9.SelectedItem == null)
+                    {
+                        s = s + "Hardy" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox9.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox11.SelectedItem == null)
+                    {
+                        s = s + "Normal" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox11.SelectedItem.ToString() + "~";
+                    }
+                    if (comboBox5.SelectedItem == null)
+                    {
+                        s = s + "No Item" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox5.SelectedItem.ToString() + "~";
+                    }
+                    s = s + textBox14.Text + "~";
+                    if (comboBox7.SelectedItem == null)
+                    {
+                        s = s + "Unaware" + "~";
+                    }
+                    else
+                    {
+                        s = s + comboBox7.SelectedItem.ToString() + "~";
+                    }
+
+                    sw.WriteLine(s);
+                    sw.Close();
+                }
+
+            }
+            catch (ArgumentException)
+            {
             }
         }
     }
+
+
 
 }

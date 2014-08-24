@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Pokemon ToolBox.exe" size="279552">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Pokemon ToolBox.exe" size="292352">
       <assemblyIdentity name="Pokemon ToolBox" version="0.5.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZkqtYxv27m7xZ5jR39FgfznLiMdVE1AiwpdZDELWZ/Q=</dsig:DigestValue>
+        <dsig:DigestValue>JKO0yMVcuJJ9O3HBm25Nh0EVDwecZXZGbL4bOnP2iyw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/HZnc1BaqGKwLV03QZfooEBPI8rieJmxaPpYY0H12aw=</dsig:DigestValue>
+        <dsig:DigestValue>wFV8+8lTWLKLK5RJXvhuhGx2g4q6Bmiz6GnrrR0linA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
